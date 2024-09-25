@@ -19,7 +19,6 @@ const NavBar: React.FC<NavBarProps> = ({ logoColor, headerStyle }) => {
   const { isOpen, currentScreen, openModal, closeModal, switchScreen } =
     useAuthModal();
   const { userAuthDetails, userDetails } = useUser();
-  console.log("authDetails:", userDetails);
   return (
     <>
       <SectionContainer

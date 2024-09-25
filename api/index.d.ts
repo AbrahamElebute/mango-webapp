@@ -13,14 +13,14 @@ export interface UserAuthDetailsType {
 }
 
 export interface RegisterBodyType {
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
-  acceptTerms: boolean;
-  newsletter: boolean;
+  firstName?: string;
+  lastName?: string;
+  username?: string;
+  email?: string;
+  password?: string;
+  passwordConfirmation?: string;
+  acceptTerms?: boolean;
+  newsletter?: boolean;
 }
 
 export type OTPTypes = "sms" | "email";
@@ -38,12 +38,17 @@ export interface SetPinBodyType {
   pin?: string;
 }
 export interface UserDetailsType {
+  id: string;
+  avatar: string;
+  code: string;
   email: string;
-  address: string;
-  state: string | null;
-  phoneNumber: string;
-  id: number;
-  fullName: string;
+  has_info: boolean;
+  has_next_of_kin: boolean;
+  email_verified: boolean;
+  suspended: boolean;
+  settings: {
+    two_factor_authentication: false;
+  };
 }
 
 export interface LoginResponseType {

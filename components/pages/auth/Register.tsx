@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { AuthScreenType } from "@/utils/types";
 import AuthLayout from "@/components/Layout/AuthLayout";
 import { AccountIcon, EyeIcon, LockIcon } from "@/assets/icon";
@@ -9,7 +9,6 @@ import CheckBox from "@/components/general/form/CheckBox";
 import { socialIcons } from "@/utils/variables";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { postData, setHeaderAuthorization } from "@/api";
-import { useRouter } from "next/router";
 import { saveToken } from "@/localservices";
 import useUser from "@/hooks/useUser";
 
@@ -37,18 +36,17 @@ const initialValue: FormData = {
   password: "",
   passwordConfirmation: "",
   acceptTerms: true,
-  newsletter: true,
+  newsletter: true
 };
 
 const Register: React.FC<RegisterProps> = ({ switchScreen, handleClose }) => {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const { setUserAuthDetails } = useUser();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<FormData>({ defaultValues: initialValue });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
@@ -60,19 +58,17 @@ const Register: React.FC<RegisterProps> = ({ switchScreen, handleClose }) => {
       password: data.password,
       password_confirmation: data.passwordConfirmation,
       accept_terms: data.acceptTerms,
-      newsletter: data.newsletter,
+      newsletter: data.newsletter
     };
 
     setLoading(true);
     try {
       const response = await postData("/register", formattedData);
-      const { data: loginData } = responseData || {};
+      const { data: loginData } = response || {};
       saveToken(JSON.stringify(loginData));
       setHeaderAuthorization(loginData.accessToken);
       setUserAuthDetails(loginData);
       handleClose();
-    } catch (error: any) {
-      console.error("Registration error:", error);
     } finally {
       setLoading(false);
     }
@@ -126,7 +122,7 @@ const Register: React.FC<RegisterProps> = ({ switchScreen, handleClose }) => {
               leftIcon={<LockIcon className="text-gray-400" />}
               rightIcon={<EyeIcon className="text-gray-400 cursor-pointer" />}
               {...register("passwordConfirmation", {
-                required: "Password confirmation is required",
+                required: "Password confirmation is required"
               })}
               error={errors?.passwordConfirmation?.message}
             />

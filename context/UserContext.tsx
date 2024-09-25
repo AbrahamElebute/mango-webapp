@@ -1,33 +1,33 @@
-import { UserAuthDetailsType, UserDetailsType } from "@/api/index.d";
+import { UserDetailsType } from "@/api/index.d";
 import { userInitialValue, userReducer } from "@/reducers";
 import { SET_AUTH_DETAILS, SET_USER_DETAILS } from "@/utils/_enums";
 import React, {
   createContext,
   useCallback,
   useContext,
-  useReducer,
+  useReducer
 } from "react";
 
 const UserContext = createContext({
   ...userInitialValue,
-  setUserAuthDetails: (_userAuthDetails?: UserAuthDetailsType) => {},
-  setUserDetails: (_userDetails?: UserDetailsType) => {},
+  setUserAuthDetails: (_userAuthDetails?: string) => {},
+  setUserDetails: (_userDetails?: UserDetailsType) => {}
 });
 
 const UserProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
+  children
 }) => {
   const [state, dispatch] = useReducer(userReducer, userInitialValue);
-  const setUserAuthDetails = useCallback((payload?: UserAuthDetailsType) => {
+  const setUserAuthDetails = useCallback((payload?: string) => {
     dispatch({
       type: SET_AUTH_DETAILS,
-      payload,
+      payload
     });
   }, []);
   const setUserDetails = useCallback((payload?: UserDetailsType) => {
     dispatch({
       type: SET_USER_DETAILS,
-      payload,
+      payload
     });
   }, []);
   return (
@@ -35,7 +35,7 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       value={{
         ...state,
         setUserAuthDetails,
-        setUserDetails,
+        setUserDetails
       }}
     >
       {children}

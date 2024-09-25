@@ -1,18 +1,18 @@
-import { UserAuthDetailsType, UserDetailsType } from "@/api/index.d";
+import { UserDetailsType } from "@/api/index.d";
 import {
   SET_AUTH_DETAILS,
   SET_USER_DETAILS,
-  UserActionType,
+  UserActionType
 } from "@/utils/_enums";
 
 export type UserInitialValueType = {
-  userAuthDetails: UserAuthDetailsType | null;
+  userAuthDetails: string | null;
   userDetails: UserDetailsType | null;
 };
 
 export const userInitialValue: UserInitialValueType = {
   userAuthDetails: null,
-  userDetails: null,
+  userDetails: null
 };
 
 export const userReducer = (

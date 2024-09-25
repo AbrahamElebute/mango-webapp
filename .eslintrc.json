@@ -6,7 +6,6 @@
     "no-unused-vars": ["error", { "args": "none" }],
     "no-use-before-define": "error",
     "use-isnan": "error",
-    "camelcase": "error",
     "curly": "error",
     "default-case": "error",
     "default-case-last": "error",
