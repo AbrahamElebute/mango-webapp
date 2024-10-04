@@ -43,13 +43,12 @@ const Modal: React.FC<ModalProps> = ({
     setIsOpen(false);
   };
 
+  const onCloseFunc = closeOnClickOutside
+    ? handleClose || (() => {})
+    : () => {};
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog
-        as="div"
-        className="relative z-[999]"
-        onClose={closeOnClickOutside ? handleClose : () => {}}
-      >
+      <Dialog as="div" className="relative z-[999]" onClose={onCloseFunc}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

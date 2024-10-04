@@ -9,6 +9,8 @@ import TiktokIcon from "./TiktokIcon";
 import TwitchIcon from "./TwitchIcon";
 import FacebookIcon from "./FacebookIcon";
 import AppleIcon from "./AppleIcon";
+import FileInvoiceDollar from "./FileInvoiceDollarIcon";
+import CoinIcon from "./CoinIcon";
 
 export {
   ApbArrow,
@@ -22,4 +24,6 @@ export {
   TwitchIcon,
   FacebookIcon,
   AppleIcon,
+  FileInvoiceDollar,
+  CoinIcon,
 };

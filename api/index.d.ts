@@ -44,8 +44,12 @@ export interface UserDetailsType {
   email: string;
   has_info: boolean;
   has_next_of_kin: boolean;
-  email_verified: boolean;
   suspended: boolean;
+  email_verified: boolean;
+  first_name: string;
+  last_name: string;
+  name: string;
+  username: string;
   settings: {
     two_factor_authentication: false;
   };
