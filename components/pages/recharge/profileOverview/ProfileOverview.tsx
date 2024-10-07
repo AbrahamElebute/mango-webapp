@@ -16,7 +16,7 @@ const ProfileOverview = () => {
     navigator.clipboard
       .writeText(`Mango ID: ${id}`)
       .then(() => {
-        toast("copySuccess");
+        toast(copySuccess);
         // toast("Copied!");
       })
       .catch((err) => {

@@ -1,11 +1,12 @@
 import { getData, postData } from "@/api";
 import { MenuCloseIcon } from "@/assets/icon";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import React, { useEffect, useState, useCallback } from "react";
 import { useModal } from "@/context/ModalContext";
 import StatusMessage from "@/components/ui/StatusMessage";
 import Button from "@/components/ui/form/Button";
 import SkeletonLoader from "@/components/ui/SkeletonLoader";
+import { toast } from "react-toastify";
 
 interface StripeModalProps {
   rechargeAmonut: { totalAmount: number; coinAmount: number };
@@ -38,10 +39,8 @@ const StripeModal: React.FC<StripeModalProps> = ({ rechargeAmonut }) => {
     next: null,
   });
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
-  const router = useRouter();
   const { closeModal } = useModal();
   const [isBtnDisabled, setIsBtnDisabled] = useState<boolean>(true);
-  const [awayStartTime, setAwayStartTime] = useState<Date | null>(null);
 
   const getCardFunc = useCallback(async (url: string = "/cards") => {
     setLoading(true);
@@ -51,7 +50,7 @@ const StripeModal: React.FC<StripeModalProps> = ({ rechargeAmonut }) => {
       setCardList(cardsDetails || []);
       setPaginationLinks(links);
     } catch (error: any) {
-      console.error("Error fetching cards:", error);
+      // console.error("Error fetching cards:", error);
     } finally {
       setLoading(false);
     }
@@ -65,7 +64,7 @@ const StripeModal: React.FC<StripeModalProps> = ({ rechargeAmonut }) => {
       const goToLink = responseData.data.link;
       window.open(goToLink, "_blank");
     } catch (error: any) {
-      console.error("Error adding card:", error);
+      // console.error("Error adding card:", error);
     } finally {
       setLoading(false);
     }
@@ -95,11 +94,12 @@ const StripeModal: React.FC<StripeModalProps> = ({ rechargeAmonut }) => {
       try {
         const responseData = await postData("/wallet/fund", data);
         const { data: resp } = responseData || {};
+        toast(resp);
       } finally {
         setLoading(false);
       }
     } else {
-      alert("Please select a card.");
+      // alert("Please select a card.");
     }
   };
 
@@ -118,7 +118,21 @@ const StripeModal: React.FC<StripeModalProps> = ({ rechargeAmonut }) => {
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [awayStartTime]);
+  }, [getCardFunc]);
+
+  const getCardBrandColor = (brand: string): string => {
+    const brandColors: { [key: string]: string } = {
+      visa: "text-blue-600",
+      mastercard: "text-red-600",
+      "american express": "text-green-600",
+      amex: "text-green-600",
+      discover: "text-purple-600",
+      "diners club": "text-yellow-600",
+      jcb: "text-pink-600",
+    };
+
+    return brandColors[brand.toLowerCase()] || "text-gray-600";
+  };
 
   return (
     <div className="bg-white rounded-lg p-6 w-[50vw]">
@@ -176,22 +190,9 @@ const StripeModal: React.FC<StripeModalProps> = ({ rechargeAmonut }) => {
                       </p>
                     </div>
                     <p
-                      className={`capitalize font-medium ${
-                        card.brand.toLowerCase() === "visa"
-                          ? "text-blue-600"
-                          : card.brand.toLowerCase() === "mastercard"
-                          ? "text-red-600"
-                          : card.brand.toLowerCase() === "american express" ||
-                            card.brand.toLowerCase() === "amex"
-                          ? "text-green-600"
-                          : card.brand.toLowerCase() === "discover"
-                          ? "text-purple-600"
-                          : card.brand.toLowerCase() === "diners club"
-                          ? "text-yellow-600"
-                          : card.brand.toLowerCase() === "jcb"
-                          ? "text-pink-600"
-                          : "text-gray-600"
-                      }`}
+                      className={`capitalize font-medium ${getCardBrandColor(
+                        card.brand
+                      )}`}
                     >
                       {card.brand}
                     </p>

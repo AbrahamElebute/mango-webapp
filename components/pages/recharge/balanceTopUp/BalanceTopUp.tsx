@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect } from "react";
 import { CoinIcon, FileInvoiceDollar } from "@/assets/icon";
 import Button from "@/components/ui/form/Button";
-import Modal from "@/components/ui/modal/Modal";
 import OrderSummaryModal from "../OrderSummaryModal";
 import TransactionHistoryModal from "../TransactionHistoryModal";
 import { useUserContext } from "@/context/UserContext";
