@@ -7,6 +7,7 @@ import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import ContextWrapper from "@/context/ContextWrapper";
 import AppLayout from "@/components/Layout/AppLayout";
+import { ToastContainer } from "react-toastify";
 
 type CustomAppProps = AppProps & {
   Component: AppProps["Component"] & {
@@ -24,7 +25,8 @@ export default function App({ Component, pageProps }: CustomAppProps) {
     if (router.pathname === "/") {
       return {
         logoColor: "var(--primary)",
-        headerStyle: "border-0",
+        headerStyle:
+          "border-0 bg-[#000000] text-white bg-opacity-100 backdrop-blur-0",
       };
     }
 
@@ -44,6 +46,7 @@ export default function App({ Component, pageProps }: CustomAppProps) {
           <NavBar {...navBarStyles} />
           <Component {...pageProps} />
           <Footer />
+          <ToastContainer />
           <AuthModal
             isOpen={isOpen}
             onClose={closeModal}

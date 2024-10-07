@@ -1,33 +1,44 @@
-import { UserDetailsType } from "@/api/index.d";
+import { UserDetailsType, UserWalletType } from "@/api/index.d";
 import { userInitialValue, userReducer } from "@/reducers";
-import { SET_AUTH_DETAILS, SET_USER_DETAILS } from "@/utils/_enums";
+import {
+  SET_AUTH_DETAILS,
+  SET_USER_DETAILS,
+  SET_USER_WALLET,
+} from "@/utils/_enums";
 import React, {
   createContext,
   useCallback,
   useContext,
-  useReducer
+  useReducer,
 } from "react";
 
 const UserContext = createContext({
   ...userInitialValue,
   setUserAuthDetails: (_userAuthDetails?: string) => {},
-  setUserDetails: (_userDetails?: UserDetailsType) => {}
+  setUserDetails: (_userDetails?: UserDetailsType) => {},
+  setUserWallet: (_userWallet?: UserWalletType) => {},
 });
 
 const UserProvider: React.FC<{ children: React.ReactNode }> = ({
-  children
+  children,
 }) => {
   const [state, dispatch] = useReducer(userReducer, userInitialValue);
   const setUserAuthDetails = useCallback((payload?: string) => {
     dispatch({
       type: SET_AUTH_DETAILS,
-      payload
+      payload,
     });
   }, []);
   const setUserDetails = useCallback((payload?: UserDetailsType) => {
     dispatch({
       type: SET_USER_DETAILS,
-      payload
+      payload,
+    });
+  }, []);
+  const setUserWallet = useCallback((payload?: UserWalletType) => {
+    dispatch({
+      type: SET_USER_WALLET,
+      payload,
     });
   }, []);
   return (
@@ -35,7 +46,8 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       value={{
         ...state,
         setUserAuthDetails,
-        setUserDetails
+        setUserDetails,
+        setUserWallet,
       }}
     >
       {children}

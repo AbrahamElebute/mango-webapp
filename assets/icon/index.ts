@@ -11,6 +11,9 @@ import FacebookIcon from "./FacebookIcon";
 import AppleIcon from "./AppleIcon";
 import FileInvoiceDollar from "./FileInvoiceDollarIcon";
 import CoinIcon from "./CoinIcon";
+import MenuIcon from "./MenuIcon";
+import MenuCloseIcon from "./MenuCloseIcon";
+import CopyIcon from "./CopyIcon";
 
 export {
   ApbArrow,
@@ -26,4 +29,7 @@ export {
   AppleIcon,
   FileInvoiceDollar,
   CoinIcon,
+  MenuIcon,
+  MenuCloseIcon,
+  CopyIcon,
 };

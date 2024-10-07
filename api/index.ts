@@ -6,7 +6,7 @@ import {
   ResponseType,
 } from "./index.d";
 
-const BASE_URL = "https://api.mangoentertainment.com/api/v1/user";
+const BASE_URL = "https://staging.mangoentertainment.com/api/v1/user";
 const controller = new AbortController();
 
 const api = axios.create({

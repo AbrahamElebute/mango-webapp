@@ -9,7 +9,7 @@ import {
   TiktokIcon,
   TwitchIcon,
   FacebookIcon,
-  AppleIcon
+  AppleIcon,
 } from "@/assets/icon";
 import Button from "@/components/ui/form/Button";
 import InputField from "@/components/general/form/InputField";
@@ -31,7 +31,7 @@ interface FormData {
 }
 const initialValue: FormData = {
   email: "",
-  password: ""
+  password: "",
 };
 
 const Login: React.FC<LoginProps> = ({ switchScreen, handleClose }) => {
@@ -42,7 +42,7 @@ const Login: React.FC<LoginProps> = ({ switchScreen, handleClose }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm<FormData>({ defaultValues: initialValue });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
@@ -67,7 +67,7 @@ const Login: React.FC<LoginProps> = ({ switchScreen, handleClose }) => {
     { icon: <TiktokIcon />, name: "TikTok" },
     { icon: <TwitchIcon />, name: "Twitch" },
     { icon: <FacebookIcon />, name: "Facebook" },
-    { icon: <AppleIcon />, name: "Apple" }
+    { icon: <AppleIcon />, name: "Apple" },
   ];
 
   return (

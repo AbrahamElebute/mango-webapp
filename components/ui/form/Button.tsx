@@ -31,7 +31,7 @@ const Button: React.FC<ButtonProps> = ({
 
   switch (variant) {
     case "primary":
-      buttonStyleClassName = "bg-primary text-white";
+      buttonStyleClassName = "bg-primary text-white hover:bg-secondary";
       break;
     case "secondary":
       buttonStyleClassName = "bg-transparent border-[1.5px] border-primary";
@@ -72,7 +72,6 @@ const Button: React.FC<ButtonProps> = ({
          hover:shadow-lg
         focus:outline-none focus:ring-2  focus:ring-primary focus:ring-opacity-50
         relative overflow-hidden
-
       `}
       {...props}
       {...eventHandlers}

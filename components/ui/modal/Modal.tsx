@@ -1,54 +1,53 @@
 "use client";
+
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, ReactNode, useEffect, useState } from "react";
 
 interface ModalProps {
-  opened: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-  title?: string;
-  contentClassName?: string;
-  dialogEnterFromAnimation?: string;
-  dialogEnterTransition?: string;
-  dialogEnterToAnimation?: string;
-  dialogLeaveTransition?: string;
-  dialogLeaveFromAnimation?: string;
-  dialogLeaveToAnimation?: string;
-  className?: string;
-  closeOnClickOutside?: boolean;
+  opened: boolean; // Controls if the modal should be open or closed
+  onClose?: () => void; // Optional close handler
+  children: ReactNode; // Modal content
+  title?: string; // Optional title for the modal
+  contentClassName?: string; // Custom class for the modal panel content
+  dialogEnterFromAnimation?: string; // Custom enter from animation
+  dialogEnterTransition?: string; // Custom enter transition
+  dialogEnterToAnimation?: string; // Custom enter to animation
+  dialogLeaveTransition?: string; // Custom leave transition
+  dialogLeaveFromAnimation?: string; // Custom leave from animation
+  dialogLeaveToAnimation?: string; // Custom leave to animation
+  className?: string; // Additional classes for the modal wrapper
 }
 
 const Modal: React.FC<ModalProps> = ({
   opened,
   onClose,
   children,
+  title,
   contentClassName = "",
-  className = "",
   dialogEnterFromAnimation = "opacity-0 scale-95",
   dialogEnterTransition = "ease-out duration-300",
   dialogEnterToAnimation = "opacity-100 scale-100",
   dialogLeaveTransition = "ease-in duration-200",
-  dialogLeaveFromAnimation,
-  dialogLeaveToAnimation,
-  closeOnClickOutside = false,
+  dialogLeaveFromAnimation = "opacity-100 scale-100",
+  dialogLeaveToAnimation = "opacity-0 scale-95",
+  className = "",
 }) => {
-  const [isOpen, setIsOpen] = useState(opened);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    setIsOpen(opened);
+    setShowModal(opened);
   }, [opened]);
 
-  const handleClose = () => {
-    onClose?.();
-    setIsOpen(false);
-  };
-
-  const onCloseFunc = closeOnClickOutside
-    ? handleClose || (() => {})
-    : () => {};
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-[999]" onClose={onCloseFunc}>
+    <Transition appear show={showModal} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-[999]"
+        onClose={() => {
+          onClose?.();
+          setShowModal(false);
+        }}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -58,26 +57,27 @@ const Modal: React.FC<ModalProps> = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-foreground bg-opacity-30 backdrop-blur-[10px]" />
+          <div className="fixed inset-0 bg-black bg-opacity-30" />
         </Transition.Child>
 
-        <div className="fixed inset-0 overflow-y-auto custom-scroll">
-          <div
-            className={`min-h-full flex items-center justify-center w-full relative`}
-          >
+        <div className="fixed inset-0 overflow-y-auto">
+          <div className={`min-h-full w-full relative ${className} `}>
             <Transition.Child
               as={Fragment}
               enter={dialogEnterTransition}
               enterFrom={dialogEnterFromAnimation}
               enterTo={dialogEnterToAnimation}
               leave={dialogLeaveTransition}
-              leaveFrom={dialogLeaveFromAnimation || dialogEnterToAnimation}
-              leaveTo={dialogLeaveToAnimation || dialogEnterFromAnimation}
+              leaveFrom={dialogLeaveFromAnimation}
+              leaveTo={dialogLeaveToAnimation}
             >
               <Dialog.Panel
-                className={`w-full relative overflow-auto overflow-x-hidden transition-all  flex items-center justify-center `}
+                as="div"
+                className={`${contentClassName} fixed w-fit top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] overflow-auto overflow-x-hidden text-left transition-all`}
               >
-                {children}
+                <div className="w-fit max-h-[90vh] overflow-y-auto no-scrollbar p-4">
+                  {children}
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>

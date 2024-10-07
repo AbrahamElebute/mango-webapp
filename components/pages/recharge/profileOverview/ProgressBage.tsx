@@ -245,7 +245,9 @@ const svgBadge = (
 );
 
 const ProgressBage = () => {
-  return <div className="absolute -top-10 right-0">{svgBadge}</div>;
+  return (
+    <div className="hidden md:block absolute -top-10 right-0">{svgBadge}</div>
+  );
 };
 
 export default ProgressBage;

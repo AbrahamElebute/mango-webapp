@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { HTMLProps } from "react";
 
 export type IconProps = {
@@ -59,3 +59,27 @@ export type AuthScreenType =
   | "resetPassword"
   | "otp"
   | "resetPassword";
+
+export type NavBarItemProps = {
+  route: RouteType;
+};
+export interface NavBarProps {
+  logoColor: string;
+  headerStyle: string;
+}
+export interface UserAvatarProps {
+  loading?: boolean;
+  avatar?: string;
+  className?: string;
+}
+export interface RechargeOptionProps {
+  coins: number;
+  price: number;
+}
+export interface StatusMessageProps {
+  title: string;
+  description?: string;
+  lottie?: object;
+  buttonText?: string;
+  onButtonClick?: any;
+}

@@ -14,4 +14,7 @@ export const SET_USER_DETAILS = "SET_USER_DETAILS",
 export type UserActionType =
   | "SET_USER_DETAILS"
   | "SET_AUTH_DETAILS"
-  | "SET_STAFFS_DETAILS";
+  | "SET_STAFFS_DETAILS"
+  | "SET_USER_WALLET";
+
+export const SET_USER_WALLET = "SET_USER_WALLET";

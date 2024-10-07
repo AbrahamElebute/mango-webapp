@@ -32,7 +32,7 @@ const Hero = () => {
   ];
 
   return (
-    <SectionContainer className="min-h-screen flex items-center  justify-center">
+    <SectionContainer className="min-h-screen flex items-center bg-[#000000] text-[#ffffff]  justify-center">
       <div className="flex flex-col w-full items-center gap-12 mt-20">
         <h1
           className="text-center font-black capitalize"
