@@ -160,7 +160,7 @@ const NavBar: React.FC<NavBarProps> = ({ logoColor, headerStyle }) => {
   return (
     <>
       <SectionContainer
-        contentContainerClassName={`${headerStyle} sticky top-0 bg-opacity-40 z-30 backdrop-filter backdrop-blur-md`}
+        contentContainerClassName={` ${headerStyle} sticky top-0 bg-opacity-40 z-30 backdrop-filter backdrop-blur-md`}
         className={`flex justify-between md:grid items-center grid-cols-3 py-6 w-full`}
       >
         <div className="flex flex-start">

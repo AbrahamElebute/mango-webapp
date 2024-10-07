@@ -55,6 +55,46 @@ export interface UserDetailsType {
   };
 }
 
+export interface UserWalletType {
+  balance: {
+    amount: string;
+    display: string;
+    whole: string;
+    symbol: string;
+    currency: string;
+  };
+  gift_earnings: {
+    amount: string;
+    display: string;
+    whole: string;
+    symbol: string;
+    currency: string;
+  };
+  all_gift_earnings: {
+    amount: string;
+    display: string;
+    whole: string;
+    symbol: string;
+    currency: string;
+  };
+  sell_rate: number;
+  purchase_rate: number;
+  minimum_purchase: {
+    amount: string;
+    display: string;
+    whole: string;
+    symbol: string;
+    currency: string;
+  };
+  minimum_cachout: {
+    amount: string;
+    display: string;
+    whole: string;
+    symbol: string;
+    currency: string;
+  };
+}
+
 export interface LoginResponseType {
   hasError: boolean;
   message: "success" | "error";
@@ -72,12 +112,19 @@ export interface VerifyOTPBodyType {
 export interface ResetPasswordBodyType {
   password?: string;
 }
-
+export interface StartCardType {
+  label?: string;
+}
 export interface ErrorResponseType {
   message?: string;
   timeStamp?: Date;
   status?: string;
   url?: string;
+}
+export interface WalletFundType {
+  card_id?: string;
+  amount?: number;
+  remarks?: string;
 }
 
 export type AllBodyType = LoginBodyType &
@@ -86,7 +133,9 @@ export type AllBodyType = LoginBodyType &
   VerifyOTPBodyType &
   ResetPasswordBodyType &
   SendChangePasswordOTPType &
-  SendOTPBodyType;
+  SendOTPBodyType &
+  StartCardType &
+  WalletFundType;
 
 export type AllResponseType = ErrorResponseType &
   AllBodyType &

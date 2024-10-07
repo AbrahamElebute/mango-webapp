@@ -26,7 +26,7 @@ export default function App({ Component, pageProps }: CustomAppProps) {
       return {
         logoColor: "var(--primary)",
         headerStyle:
-          "border-0 bg-[#000000] text-white bg-opacity-100 backdrop-blur-0",
+          "border-0 !bg-[#000000] text-white !bg-opacity-100 !backdrop-blur-0",
       };
     }
 
