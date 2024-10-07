@@ -3,7 +3,7 @@ import React from "react";
 
 const MenuIcon: React.FC<IconProps> = ({
   size = 24,
-  color = "black",
+  color = "var(--primary)",
   ...props
 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>

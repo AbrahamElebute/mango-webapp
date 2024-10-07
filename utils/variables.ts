@@ -38,7 +38,7 @@ export const navbar = "navbar",
     },
     App: {
       Icon: undefined,
-      path: "/app",
+      path: "/",
       label: "App",
       showIn: [navbar],
       type: "link",

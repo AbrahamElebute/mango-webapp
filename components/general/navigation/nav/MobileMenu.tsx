@@ -23,7 +23,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 }) => {
   return (
     <div className="md:hidden  fixed inset-0 z-40 bg-black/50  ">
-      <div className="p-4 h-[50vh] bg-white">
+      <div className="p-4 h-[60vh] bg-white">
         <button className="mb-4 text-gray-600" onClick={toggleMobileMenu}>
           <MenuCloseIcon />
         </button>

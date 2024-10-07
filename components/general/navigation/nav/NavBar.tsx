@@ -149,7 +149,11 @@ import UserAvatar from "./UserAvatar";
 import { NavBarProps } from "@/utils/types";
 import { MenuCloseIcon, MenuIcon } from "@/assets/icon";
 
-const NavBar: React.FC<NavBarProps> = ({ logoColor, headerStyle }) => {
+const NavBar: React.FC<NavBarProps> = ({
+  logoColor,
+  headerStyle,
+  headerBtnStyle,
+}) => {
   const { isOpen, currentScreen, openModal, closeModal, switchScreen } =
     useAuthModal();
   const { userAuthDetails, loadingUserDetails, userDetails } = useUser();
@@ -183,7 +187,8 @@ const NavBar: React.FC<NavBarProps> = ({ logoColor, headerStyle }) => {
             />
           ) : (
             <Button
-              className="hidden md:block"
+              variant="default"
+              className={`hidden md:block ${headerBtnStyle}   transition-none duration-0 `}
               onClick={() => openModal("login")}
             >
               Login
@@ -191,7 +196,7 @@ const NavBar: React.FC<NavBarProps> = ({ logoColor, headerStyle }) => {
           )}
 
           <button
-            className="md:hidden ml-4 text-gray-600"
+            className={`md:hidden ml-4 text-gray-600`}
             onClick={toggleMobileMenu}
           >
             {isMobileMenuOpen ? <MenuCloseIcon /> : <MenuIcon />}

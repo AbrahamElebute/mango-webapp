@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { HTMLProps } from "react";
 
 export type IconProps = {
@@ -66,6 +66,7 @@ export type NavBarItemProps = {
 export interface NavBarProps {
   logoColor: string;
   headerStyle: string;
+  headerBtnStyle: string;
 }
 export interface UserAvatarProps {
   loading?: boolean;

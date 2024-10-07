@@ -27,12 +27,14 @@ export default function App({ Component, pageProps }: CustomAppProps) {
         logoColor: "var(--primary)",
         headerStyle:
           "border-0 !bg-[#000000] text-white !bg-opacity-100 !backdrop-blur-0",
+        headerBtnStyle: "bg-white text-black",
       };
     }
 
     return {
       logoColor: "var(--secondary)",
       headerStyle: "border-b-2 border-[#DFDFE1]",
+      headerBtnStyle: "",
     };
   };
 
