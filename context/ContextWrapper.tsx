@@ -1,13 +1,16 @@
 import React from "react";
 import UserProvider from "./UserContext";
 import { ModalProvider } from "./ModalContext";
+import { AuthProvider } from "./AuthContext";
 
 const ContextWrapper: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   return (
     <UserProvider>
-      <ModalProvider>{children}</ModalProvider>
+      <AuthProvider>
+        <ModalProvider>{children}</ModalProvider>
+      </AuthProvider>
     </UserProvider>
   );
 };

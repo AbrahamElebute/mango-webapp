@@ -103,3 +103,11 @@ export interface LoginProps {
   switchScreen: (screen: AuthScreenType) => void;
   handleClose: () => void;
 }
+export interface RegisterProps {
+  switchScreen: (screen: AuthScreenType) => void;
+  handleClose: () => void;
+}
+export interface ForgotPasswordProps {
+  switchScreen: (screen: AuthScreenType) => void;
+  handleClose: () => void;
+}

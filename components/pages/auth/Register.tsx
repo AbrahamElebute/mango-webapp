@@ -1,21 +1,18 @@
 import React, { useState } from "react";
-import { AuthScreenType } from "@/utils/types";
+import { RegisterProps } from "@/utils/types";
 import AuthLayout from "@/components/Layout/AuthLayout";
-import { AccountIcon, EyeIcon, LockIcon } from "@/assets/icon";
+import { AccountIcon } from "@/assets/icon";
 import Button from "@/components/ui/form/Button";
 import InputField from "@/components/general/form/InputField";
 import { RegisterImg } from "@/assets/images";
 import CheckBox from "@/components/general/form/CheckBox";
-import { socialIcons } from "@/utils/variables";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { postData, setHeaderAuthorization } from "@/api";
 import { saveToken } from "@/localservices";
 import useUser from "@/hooks/useUser";
-
-interface RegisterProps {
-  switchScreen: (screen: AuthScreenType) => void;
-  handleClose: () => void;
-}
+import PasswordField from "@/components/general/form/PasswordField";
+import SocialButton from "./authComponents/SocialButton";
+import StatusMessage from "@/components/ui/StatusMessage";
 
 interface FormData {
   firstName: string;
@@ -36,19 +33,26 @@ const initialValue: FormData = {
   password: "",
   passwordConfirmation: "",
   acceptTerms: true,
-  newsletter: true
+  newsletter: true,
 };
 
 const Register: React.FC<RegisterProps> = ({ switchScreen, handleClose }) => {
   const [loading, setLoading] = useState(false);
-  const { setUserAuthDetails } = useUser();
+  const { setUserAuthDetails, setUserDetails } = useUser();
+  const [formStatus, setFormStatus] = useState({
+    message: "",
+    type: "info" as "error" | "success" | "info",
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm<FormData>({ defaultValues: initialValue });
 
+  // Handle Register submission
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     const formattedData = {
       first_name: data.firstName,
@@ -58,18 +62,33 @@ const Register: React.FC<RegisterProps> = ({ switchScreen, handleClose }) => {
       password: data.password,
       password_confirmation: data.passwordConfirmation,
       accept_terms: data.acceptTerms,
-      newsletter: data.newsletter
+      newsletter: data.newsletter,
     };
-
+    setFormStatus({ ...formStatus });
     setLoading(true);
     try {
       const response = await postData("/register", formattedData);
-      const { data: loginData } = response || {};
-      saveToken(JSON.stringify(loginData));
-      setHeaderAuthorization(loginData.accessToken);
-      setUserAuthDetails(loginData);
-      handleClose();
+      const { data: regData } = response || {};
+      const token = regData?.authentication?.token;
+      saveToken(token);
+      setHeaderAuthorization(token);
+      setUserAuthDetails(token);
+      setUserDetails(regData?.user);
+      setFormStatus({
+        message: "Registration successful!",
+        type: "success",
+      });
+      setTimeout(handleClose, 1000);
+    } catch (error: any) {
+      const errorData =
+        error.response.message ||
+        "An unexpected error occurred. Please try again later.";
+      setFormStatus({
+        message: errorData,
+        type: "error",
+      });
     } finally {
+      // Ensure loading is set to false
       setLoading(false);
     }
   };
@@ -107,27 +126,24 @@ const Register: React.FC<RegisterProps> = ({ switchScreen, handleClose }) => {
             {...register("email", { required: "Email is required" })}
             error={errors?.email?.message}
           />
-          <InputField
-            type="password"
-            placeholder="Password"
-            leftIcon={<LockIcon className="text-gray-400" />}
-            rightIcon={<EyeIcon className="text-gray-400 cursor-pointer" />}
-            {...register("password", { required: "Password is required" })}
+          <PasswordField
+            name="password"
+            showPassword={showPassword}
+            togglePassword={() => setShowPassword((prev) => !prev)}
+            register={register}
             error={errors?.password?.message}
           />
+          <PasswordField
+            name="passwordConfirmation"
+            showPassword={showConfirmPassword}
+            placeholder="Confirm Password"
+            togglePassword={() => setShowConfirmPassword((prev) => !prev)}
+            register={register}
+            error={errors?.passwordConfirmation?.message}
+          />
           <div className="space-y-2">
-            <InputField
-              type="password"
-              placeholder="Confirm Password"
-              leftIcon={<LockIcon className="text-gray-400" />}
-              rightIcon={<EyeIcon className="text-gray-400 cursor-pointer" />}
-              {...register("passwordConfirmation", {
-                required: "Password confirmation is required"
-              })}
-              error={errors?.passwordConfirmation?.message}
-            />
             <div className="text-sm text-left flex gap-2">
-              <CheckBox {...register("acceptTerms")} />
+              <CheckBox required {...register("acceptTerms")} />
               <p>
                 By clicking the <span className="text-primary">Register</span>{" "}
                 button, you agree to the <br /> public offer
@@ -135,27 +151,24 @@ const Register: React.FC<RegisterProps> = ({ switchScreen, handleClose }) => {
             </div>
           </div>
           <Button
-            type="submit"
-            className="w-full text-lg py-2 font-medium bg-primary text-gray-800 hover:bg-primary/80 !rounded-full"
+            variant="primary"
+            className="w-full text-lg"
             disabled={loading}
           >
             {loading ? "Creating account..." : "Create an account"}
           </Button>
+          {formStatus.message && (
+            <StatusMessage
+              type={formStatus.type}
+              message={formStatus.message}
+              clearMessage={() => setFormStatus({ ...formStatus, message: "" })}
+            />
+          )}
         </form>
 
         <div className="text-center space-y-4">
           <p className="text-sm text-gray-500">- OR Continue with -</p>
-          <div className="flex items-center justify-between">
-            {socialIcons.map(({ icon: Icon, name }, index) => (
-              <button
-                key={index}
-                className="h-12 w-12 border-2 border-primary rounded-full flex items-center justify-center hover:bg-primary/10 transition-colors"
-                aria-label={`Login with ${name}`}
-              >
-                <Icon />
-              </button>
-            ))}
-          </div>
+          <SocialButton />
         </div>
 
         <p className="text-center text-sm">

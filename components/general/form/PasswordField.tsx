@@ -7,11 +7,22 @@ const PasswordField: React.FC<{
   togglePassword: () => void;
   register: any;
   error?: string;
-}> = ({ showPassword, togglePassword, register, error }) => (
+  required?: string;
+  placeholder?: string;
+  name?: string;
+}> = ({
+  showPassword,
+  togglePassword,
+  register,
+  error,
+  placeholder,
+  required,
+  name,
+}) => (
   <InputField
     type={showPassword ? "text" : "password"}
-    placeholder="Password"
-    leftIcon={<LockIcon className="text-gray-400" />}
+    placeholder={placeholder || "Password"}
+    leftIcon={<LockIcon />}
     rightIcon={
       showPassword ? (
         <EyeIcon onClick={togglePassword} />
@@ -19,7 +30,7 @@ const PasswordField: React.FC<{
         <EyeOffIcon onClick={togglePassword} />
       )
     }
-    {...register("password", { required: "Password is required" })}
+    {...register(name, { required: `${name} is required` })}
     error={error}
   />
 );

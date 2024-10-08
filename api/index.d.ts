@@ -26,12 +26,10 @@ export interface RegisterBodyType {
 export type OTPTypes = "sms" | "email";
 
 export interface SendOTPBodyType {
-  identifier?: string;
-  otpType?: OTPTypes;
-  verificationType?: string;
+  signature?: string | null;
 }
 export interface SendChangePasswordOTPType {
-  phoneNumber?: string;
+  email?: string;
 }
 
 export interface SetPinBodyType {
@@ -105,12 +103,18 @@ export interface LoginResponseType {
 export interface SignUpResponseType {
   phoneNumber?: string;
 }
+export interface SendResetPasswordResponeType {
+  message?: string;
+  token?: string;
+  expires_at?: number;
+}
 export interface VerifyOTPBodyType {
-  phoneNumber?: string;
-  otp?: string;
+  code?: string;
+  token?: string | null;
 }
 export interface ResetPasswordBodyType {
   password?: string;
+  password_confirmation: string;
 }
 export interface StartCardType {
   label?: string;
@@ -140,7 +144,8 @@ export type AllBodyType = LoginBodyType &
 export type AllResponseType = ErrorResponseType &
   AllBodyType &
   LoginResponseType &
-  SignUpResponseType;
+  SignUpResponseType &
+  SendResetPasswordResponeType;
 
 export type AllRequestType = "post" | "get" | "delete" | "put" | "patch";
 

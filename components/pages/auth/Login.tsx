@@ -32,7 +32,6 @@ const Login: React.FC<LoginProps> = ({ switchScreen, handleClose }) => {
     formState: { errors },
   } = useForm<FormData>({ defaultValues: { email: "", password: "" } });
 
-  // Handle login submission
   const handleLogin: SubmitHandler<FormData> = async (data) => {
     setFormStatus({ ...formStatus });
     setLoading(true);
@@ -67,14 +66,6 @@ const Login: React.FC<LoginProps> = ({ switchScreen, handleClose }) => {
       <div className="p-5 space-y-8 w-full">
         <h2 className="text-3xl font-semibold">Login</h2>
         <form className="space-y-6 w-full" onSubmit={handleSubmit(handleLogin)}>
-          {formStatus.message && (
-            <StatusMessage
-              type={formStatus.type}
-              message={formStatus.message}
-              clearMessage={() => setFormStatus({ ...formStatus, message: "" })}
-            />
-          )}
-
           <InputField
             type="email"
             placeholder="Email"
@@ -83,6 +74,7 @@ const Login: React.FC<LoginProps> = ({ switchScreen, handleClose }) => {
             error={errors?.email?.message}
           />
           <PasswordField
+            name="password"
             showPassword={showPassword}
             togglePassword={() => setShowPassword((prev) => !prev)}
             register={register}
@@ -102,6 +94,13 @@ const Login: React.FC<LoginProps> = ({ switchScreen, handleClose }) => {
           >
             {loading ? "Logging in..." : "Login"}
           </Button>
+          {formStatus.message && (
+            <StatusMessage
+              type={formStatus.type}
+              message={formStatus.message}
+              clearMessage={() => setFormStatus({ ...formStatus, message: "" })}
+            />
+          )}
         </form>
 
         <div className="text-center space-y-4">
