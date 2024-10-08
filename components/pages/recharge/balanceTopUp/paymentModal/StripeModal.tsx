@@ -36,7 +36,7 @@ const StripeModal: React.FC<StripeModalProps> = ({ rechargeAmonut }) => {
     first: "",
     last: "",
     prev: null,
-    next: null,
+    next: null
   });
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const { closeModal } = useModal();
@@ -87,7 +87,7 @@ const StripeModal: React.FC<StripeModalProps> = ({ rechargeAmonut }) => {
       const data = {
         card_id: selectedCardId,
         amount: rechargeAmonut.totalAmount,
-        remarks: "",
+        remarks: ""
       };
 
       setLoading(true);
@@ -128,7 +128,7 @@ const StripeModal: React.FC<StripeModalProps> = ({ rechargeAmonut }) => {
       amex: "text-green-600",
       discover: "text-purple-600",
       "diners club": "text-yellow-600",
-      jcb: "text-pink-600",
+      jcb: "text-pink-600"
     };
 
     return brandColors[brand.toLowerCase()] || "text-gray-600";
