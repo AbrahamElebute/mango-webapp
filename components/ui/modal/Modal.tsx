@@ -75,7 +75,7 @@ const Modal: React.FC<ModalProps> = ({
                 as="div"
                 className={`${contentClassName} fixed w-fit top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] overflow-auto overflow-x-hidden text-left transition-all`}
               >
-                <div className="w-fit max-h-[100vh] overflow-y-auto no-scrollbar p-4">
+                <div className="w-fit max-h-[100vh] overflow-y-auto no-scrollbar">
                   {children}
                 </div>
               </Dialog.Panel>

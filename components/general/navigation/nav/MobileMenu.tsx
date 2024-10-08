@@ -1,18 +1,11 @@
 import React from "react";
 import NavBarItem from "./NavBarItem";
-import { RouteType } from "@/utils/types";
+import { MobileMenuProps, RouteType } from "@/utils/types";
 import { navRoutes } from "@/utils/variables";
 import Button from "../../../ui/form/Button";
 import UserAvatar from "./UserAvatar";
 import { MenuCloseIcon } from "@/assets/icon";
-
-interface MobileMenuProps {
-  userAuthDetails: any;
-  loadingUserDetails: boolean;
-  userDetails: any;
-  toggleMobileMenu: () => void;
-  openModal: any;
-}
+import Modal from "@/components/ui/modal/Modal";
 
 const MobileMenu: React.FC<MobileMenuProps> = ({
   userAuthDetails,
@@ -22,8 +15,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   openModal,
 }) => {
   return (
-    <div className="md:hidden  fixed inset-0 z-40 bg-black/50  ">
-      <div className="p-4 h-fit bg-white">
+    <Modal
+      contentClassName="!top-0 !translate-y-[0]"
+      opened={true}
+      onClose={toggleMobileMenu}
+    >
+      <div className="p-4 h-fit w-screen bg-white">
         <button className="mb-4 text-gray-600" onClick={toggleMobileMenu}>
           <MenuCloseIcon />
         </button>
@@ -45,13 +42,13 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           )}
           {navRoutes.map((route: RouteType, index) => (
             <li key={index} onClick={toggleMobileMenu}>
-              <NavBarItem route={route} />
+              <NavBarItem route={route} isMoblie />
             </li>
           ))}
         </ul>
         {!userAuthDetails && (
           <Button
-            className="mt-6 w-full"
+            className="mt-10 !p-4 w-full"
             onClick={() => {
               openModal("login");
               toggleMobileMenu();
@@ -61,7 +58,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           </Button>
         )}
       </div>
-    </div>
+    </Modal>
   );
 };
 

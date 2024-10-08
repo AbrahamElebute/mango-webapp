@@ -62,6 +62,7 @@ export type AuthScreenType =
 
 export type NavBarItemProps = {
   route: RouteType;
+  isMoblie: boolean;
 };
 export interface NavBarProps {
   logoColor: string;
@@ -83,4 +84,11 @@ export interface StatusMessageProps {
   lottie?: object;
   buttonText?: string;
   onButtonClick?: any;
+}
+export interface MobileMenuProps {
+  userAuthDetails: any;
+  loadingUserDetails: boolean;
+  userDetails: any;
+  toggleMobileMenu: () => void;
+  openModal: any;
 }
