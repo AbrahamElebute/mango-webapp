@@ -1,5 +1,5 @@
 export interface LoginBodyType {
-  emailO?: string;
+  email?: string;
   password?: string;
 }
 
@@ -114,7 +114,7 @@ export interface VerifyOTPBodyType {
 }
 export interface ResetPasswordBodyType {
   password?: string;
-  password_confirmation: string;
+  password_confirmation?: string;
 }
 export interface StartCardType {
   label?: string;
