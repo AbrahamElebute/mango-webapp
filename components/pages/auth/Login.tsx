@@ -1,105 +1,100 @@
 import React, { useState } from "react";
-import { AuthScreenType } from "@/utils/types";
+import { LoginProps } from "@/utils/types";
 import AuthLayout from "@/components/Layout/AuthLayout";
-import {
-  AccountIcon,
-  EyeIcon,
-  LockIcon,
-  GoogleIcon,
-  TiktokIcon,
-  TwitchIcon,
-  FacebookIcon,
-  AppleIcon,
-} from "@/assets/icon";
+import { AccountIcon } from "@/assets/icon";
 import Button from "@/components/ui/form/Button";
 import InputField from "@/components/general/form/InputField";
 import { LoginImg } from "@/assets/images";
-// import { useRouter } from "next/router";
 import { postData, setHeaderAuthorization } from "@/api";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { saveToken } from "@/localservices";
 import useUser from "@/hooks/useUser";
-
-interface LoginProps {
-  switchScreen: (screen: AuthScreenType) => void;
-  handleClose: () => void;
-}
+import SocialButton from "./authComponents/SocialButton";
+import StatusMessage from "@/components/ui/StatusMessage";
+import PasswordField from "@/components/general/form/PasswordField";
 
 interface FormData {
   email: string;
   password: string;
 }
-const initialValue: FormData = {
-  email: "",
-  password: "",
-};
 
 const Login: React.FC<LoginProps> = ({ switchScreen, handleClose }) => {
-  const [loading, setLoading] = useState(false);
-  // const router = useRouter();
   const { setUserAuthDetails, setUserDetails } = useUser();
-
+  const [formStatus, setFormStatus] = useState({
+    message: "",
+    type: "info" as "error" | "success" | "info",
+  });
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({ defaultValues: initialValue });
+  } = useForm<FormData>({ defaultValues: { email: "", password: "" } });
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
+  // Handle login submission
+  const handleLogin: SubmitHandler<FormData> = async (data) => {
+    setFormStatus({ ...formStatus });
     setLoading(true);
     try {
-      const responseData = await postData("/login", data);
-      const { data: loginData } = responseData || {};
+      const { data: loginData } = await postData("/login", data);
       const token = loginData?.authentication?.token;
-      const userDetails = loginData?.user;
       saveToken(token);
       setHeaderAuthorization(token);
       setUserAuthDetails(token);
-      setUserDetails(userDetails);
-      handleClose();
+      setUserDetails(loginData?.user);
+      setFormStatus({
+        message: "Login successful!",
+        type: "success",
+      });
+      setTimeout(handleClose, 1000);
+    } catch (error: any) {
+      const errorData =
+        error.response.message ||
+        "An unexpected error occurred. Please try again later.";
+      setFormStatus({
+        message: errorData,
+        type: "error",
+      });
     } finally {
+      // Ensure loading is set to false
       setLoading(false);
     }
   };
-
-  const socialIcons = [
-    { icon: <GoogleIcon />, name: "Google" },
-    { icon: <TiktokIcon />, name: "TikTok" },
-    { icon: <TwitchIcon />, name: "Twitch" },
-    { icon: <FacebookIcon />, name: "Facebook" },
-    { icon: <AppleIcon />, name: "Apple" },
-  ];
 
   return (
     <AuthLayout onClose={handleClose} AuthImage={LoginImg}>
       <div className="p-5 space-y-8 w-full">
         <h2 className="text-3xl font-semibold">Login</h2>
-        <form className="space-y-6 w-full" onSubmit={handleSubmit(onSubmit)}>
+        <form className="space-y-6 w-full" onSubmit={handleSubmit(handleLogin)}>
+          {formStatus.message && (
+            <StatusMessage
+              type={formStatus.type}
+              message={formStatus.message}
+              clearMessage={() => setFormStatus({ ...formStatus, message: "" })}
+            />
+          )}
+
           <InputField
             type="email"
-            placeholder="Username"
+            placeholder="Email"
             leftIcon={<AccountIcon className="text-gray-400" />}
             {...register("email", { required: "Email is required" })}
             error={errors?.email?.message}
           />
-          <div className="space-y-2">
-            <InputField
-              type="password"
-              placeholder="Password"
-              leftIcon={<LockIcon className="text-gray-400" />}
-              rightIcon={<EyeIcon className="text-gray-400 cursor-pointer" />}
-              {...register("password", { required: "Password is required" })}
-              error={errors?.password?.message}
-            />
-            <button
-              type="button"
-              className="text-sm hover:text-primary ml-auto block"
-              onClick={() => switchScreen("forgotPassword")}
-            >
-              Forgot Password?
-            </button>
-          </div>
-
+          <PasswordField
+            showPassword={showPassword}
+            togglePassword={() => setShowPassword((prev) => !prev)}
+            register={register}
+            error={errors?.password?.message}
+          />
+          <button
+            type="button"
+            className="text-sm hover:text-primary ml-auto block"
+            onClick={() => switchScreen("forgotPassword")}
+          >
+            Forgot Password?
+          </button>
           <Button
             type="submit"
             disabled={loading}
@@ -111,17 +106,7 @@ const Login: React.FC<LoginProps> = ({ switchScreen, handleClose }) => {
 
         <div className="text-center space-y-4">
           <p className="text-sm text-gray-500">- OR Continue with -</p>
-          <div className="flex items-center justify-between">
-            {socialIcons.map(({ icon, name }, index) => (
-              <button
-                key={index}
-                className="h-12 w-12 border-2 border-primary rounded-full flex items-center justify-center hover:bg-primary/10 transition-colors"
-                aria-label={`Login with ${name}`}
-              >
-                {icon}
-              </button>
-            ))}
-          </div>
+          <SocialButton />
         </div>
 
         <p className="text-center text-sm">

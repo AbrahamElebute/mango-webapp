@@ -1,41 +1,41 @@
 import { StatusMessageProps } from "@/utils/types";
-import dynamic from "next/dynamic";
-import React from "react";
-import { emptyList } from "@/assets/images/lottiefiles";
+import React, { useEffect } from "react";
 
 const StatusMessage: React.FC<StatusMessageProps> = ({
-  title,
-  description,
-  lottie,
-  buttonText,
-  onButtonClick,
+  type,
+  message,
+  clearMessage,
+  duration = 6000,
 }) => {
-  const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        clearMessage();
+      }, duration);
+
+      return () => clearTimeout(timer);
+    }
+  }, [message, clearMessage, duration]);
+
+  const getBackgroundColor = () => {
+    switch (type) {
+      case "error":
+        return "bg-red-500";
+      case "success":
+        return "bg-green-500";
+      case "info":
+        return "bg-blue-500";
+      default:
+        return "";
+    }
+  };
 
   return (
-    <div className="flex flex-col gap-4 items-center justify-centers">
-      <Lottie
-        loop={true}
-        autoplay={true}
-        style={{ width: 120, height: 100 }}
-        animationData={lottie || emptyList}
-      />
-      <div>
-        <h1 className="text-2xl font-semibold text-gray-800">{title}</h1>
-
-        {description && (
-          <p className="text-gray-600 text-center  max-w-lg">{description}</p>
-        )}
-      </div>
-
-      {buttonText && onButtonClick && (
-        <button
-          onClick={onButtonClick}
-          className="px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-dark"
-        >
-          {buttonText}
-        </button>
-      )}
+    <div
+      className={`flex items-center justify-center py-3 px-6 max-w-[90vw] md:max-w-[40vw] rounded-xl text-white ${getBackgroundColor()} transition-all duration-300 ease-in-out`}
+      role="alert"
+    >
+      <p className="truncate">{message}</p>
     </div>
   );
 };

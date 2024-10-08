@@ -3,7 +3,7 @@ import { MenuCloseIcon } from "@/assets/icon";
 // import { useRouter } from "next/router";
 import React, { useEffect, useState, useCallback } from "react";
 import { useModal } from "@/context/ModalContext";
-import StatusMessage from "@/components/ui/StatusMessage";
+import PlaceholderState from "@/components/ui/PlaceholderState";
 import Button from "@/components/ui/form/Button";
 import SkeletonLoader from "@/components/ui/SkeletonLoader";
 import { toast } from "react-toastify";
@@ -165,7 +165,7 @@ const StripeModal: React.FC<StripeModalProps> = ({ rechargeAmonut }) => {
       ) : (
         <>
           {cardList.length === 0 ? (
-            <StatusMessage
+            <PlaceholderState
               title="No cards linked to your account."
               description="Start adding your cards to keep track of your payments. Click “Add Card” to proceed."
               buttonText="Add Card"

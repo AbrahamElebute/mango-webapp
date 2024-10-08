@@ -18,3 +18,5 @@ export type UserActionType =
   | "SET_USER_WALLET";
 
 export const SET_USER_WALLET = "SET_USER_WALLET";
+
+export type StatusType = "error" | "success" | "info";

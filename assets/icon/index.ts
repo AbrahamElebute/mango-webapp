@@ -14,6 +14,7 @@ import CoinIcon from "./CoinIcon";
 import MenuIcon from "./MenuIcon";
 import MenuCloseIcon from "./MenuCloseIcon";
 import CopyIcon from "./CopyIcon";
+import EyeOffIcon from "./EyeOffIcon";
 
 export {
   ApbArrow,
@@ -32,4 +33,5 @@ export {
   MenuIcon,
   MenuCloseIcon,
   CopyIcon,
+  EyeOffIcon,
 };

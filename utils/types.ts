@@ -1,5 +1,6 @@
 import React from "react";
 import { HTMLProps } from "react";
+import { StatusType } from "./_enums";
 
 export type IconProps = {
   size?: number;
@@ -78,7 +79,7 @@ export interface RechargeOptionProps {
   coins: number;
   price: number;
 }
-export interface StatusMessageProps {
+export interface PlaceholderStateProps {
   title: string;
   description?: string;
   lottie?: object;
@@ -91,4 +92,14 @@ export interface MobileMenuProps {
   userDetails: any;
   toggleMobileMenu: () => void;
   openModal: any;
+}
+export interface StatusMessageProps {
+  type: StatusType;
+  message: string;
+  clearMessage: () => void;
+  duration?: number;
+}
+export interface LoginProps {
+  switchScreen: (screen: AuthScreenType) => void;
+  handleClose: () => void;
 }
