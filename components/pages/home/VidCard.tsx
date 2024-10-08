@@ -51,7 +51,7 @@ const VidCard: React.FC<VidCardProps> = ({
   title,
   description,
   className = "",
-  posterSrc = "/path-to-default-poster-image.jpg"
+  posterSrc = "/path-to-default-poster-image.jpg",
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -98,18 +98,18 @@ const VidCard: React.FC<VidCardProps> = ({
           preload="metadata"
         />
       </div>
-      <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
-        <div>
+      <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between">
+        <div className="bg-gradient-to-t from-transparent to-primary/80 p-4">
           {title && (
             <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
           )}
           {description && (
-            <p className="text-sm text-gray-200">{description}</p>
+            <p className="text-sm text-gray-200 text-out">{description}</p>
           )}
         </div>
         <button
           onClick={togglePlay}
-          className="self-center bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-300"
+          className="self-center m-4 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-300"
         >
           {isPlaying ? (
             <PauseIcon className="w-8 h-8 text-white" />

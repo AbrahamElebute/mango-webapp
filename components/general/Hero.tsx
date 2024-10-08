@@ -7,26 +7,26 @@ const Hero = () => {
   const videos = [
     {
       src: "/assets/videos/pikuniku_knight_small.mp4",
-      title: "Video 1",
-      description: "Description for video 1",
+      title: "🍿 Mango Entertainment",
+      description: "Entertainment, Ripe for You 🍑 ",
       posterSrc: "",
     },
     {
       src: "/assets/videos/Download.mp4",
-      title: "Video 2",
-      description: "Description for video 2",
+      title: "🎥 Mango Entertainment",
+      description: "Sweet Streams, Anytime 🍭",
       posterSrc: "",
     },
     {
       src: "/assets/videos/pikuniku_knight_small.mp4",
-      title: "Video 3",
-      description: "Description for video 3",
+      title: "📺 Mango Entertainment",
+      description: "Peel Back and Play 🎬",
       posterSrc: "",
     },
     {
       src: "/assets/videos/Download.mp4",
-      title: "Video 4",
-      description: "Description for video 4",
+      title: "🥭Mango Entertainment",
+      description: " Entertainment, Served Fresh 🍉",
       posterSrc: "",
     },
   ];
@@ -36,7 +36,7 @@ const Hero = () => {
       <div className="flex flex-col w-full items-center gap-12 mt-20">
         <h1
           className="text-center font-black capitalize"
-          style={{ fontSize: "clamp(3rem, 5vw, 6rem)" }}
+          style={{ fontSize: "clamp(2.5rem, 5vw, 6rem)" }}
         >
           Lets reach the <br />
           Unreachables

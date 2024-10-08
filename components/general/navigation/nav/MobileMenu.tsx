@@ -23,22 +23,26 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 }) => {
   return (
     <div className="md:hidden  fixed inset-0 z-40 bg-black/50  ">
-      <div className="p-4 h-[60vh] bg-white">
+      <div className="p-4 h-fit bg-white">
         <button className="mb-4 text-gray-600" onClick={toggleMobileMenu}>
           <MenuCloseIcon />
         </button>
         <ul className="space-y-4">
-          <div className="flex gap-4 items-center">
-            <UserAvatar
-              loading={loadingUserDetails}
-              avatar={userDetails?.avatar}
-              className="block md:hidden"
-            />
-            <span>
-              <p className="text-2xl font-semibold">{userDetails?.username}</p>
-              <p className="text-black/50">{userDetails?.name}</p>
-            </span>
-          </div>
+          {userAuthDetails && (
+            <div className="flex gap-4 items-center">
+              <UserAvatar
+                loading={loadingUserDetails}
+                avatar={userDetails?.avatar}
+                className="block md:hidden"
+              />
+              <span>
+                <p className="text-2xl font-semibold">
+                  {userDetails?.username}
+                </p>
+                <p className="text-black/50">{userDetails?.name}</p>
+              </span>
+            </div>
+          )}
           {navRoutes.map((route: RouteType, index) => (
             <li key={index} onClick={toggleMobileMenu}>
               <NavBarItem route={route} />

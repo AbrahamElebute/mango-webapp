@@ -74,7 +74,7 @@ const BalanceTopUp: React.FC = () => {
   return (
     <>
       {loadingUserWallet ? (
-        <SkeletonLoader className="w-full max-w-4xl h-[400px] rounded-xl m-10" />
+        <SkeletonLoader className="w-full  max-w-4xl h-[400px] rounded-xl m-10" />
       ) : (
         <div className="w-full max-w-4xl mx-auto p-6">
           <div className="bg-white shadow-lg rounded-xl p-6 space-y-6">
