@@ -63,7 +63,7 @@ export type AuthScreenType =
 
 export type NavBarItemProps = {
   route: RouteType;
-  isMoblie: boolean;
+  isMoblie?: boolean;
 };
 export interface NavBarProps {
   logoColor: string;
