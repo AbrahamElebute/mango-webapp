@@ -1,26 +1,26 @@
 import SectionContainer from "@/components/Layout/SectionContainer";
-import React, { useState } from "react";
+import React from "react";
 import Progress from "./Progress";
 import ProgressBage from "./ProgressBage";
 import useUser from "@/hooks/useUser";
 import Image from "next/image";
 import SkeletonLoader from "@/components/ui/SkeletonLoader";
 import { CopyIcon } from "@/assets/icon";
-import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useToast from "@/hooks/useToast";
 
 const ProfileOverview = () => {
   const { userDetails, loadingUserDetails } = useUser();
-  const [copySuccess, setCopySuccess] = useState<string>("");
+  const { showToast } = useToast();
 
   const copyToClipboard = (id: string) => {
     navigator.clipboard
       .writeText(`Mango ID: ${id}`)
       .then(() => {
-        toast(copySuccess);
-        // toast("Copied!");
+        showToast(`Copied successfully!`, "success");
       })
       .catch((err) => {
-        setCopySuccess("Failed to copy!");
+        showToast("Failed to copy!", "error");
       });
   };
 

@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* * {
-   //My style debugger 
-  outline: 1px red solid;
-} */
+* {
+  /* My style debugger */
+  /* outline: 1px red solid; */
+}
 
 @layer base {
   :root {

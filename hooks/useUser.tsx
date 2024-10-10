@@ -1,6 +1,9 @@
-import { getData } from "@/api";
+import { getData, postData } from "@/api";
 import { useUserContext } from "@/context/UserContext";
+import { Routes } from "@/utils/variables";
+import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
+import useToast from "./useToast";
 
 const useUser = () => {
   const {
@@ -15,10 +18,21 @@ const useUser = () => {
   // Separate state management for loading states
   const [loadingUserDetails, setLoadingUserDetails] = useState(false);
   const [loadingUserWallet, setLoadingUserWallet] = useState(false);
+  const router = useRouter();
+  const { showToast } = useToast();
 
-  const logoutUser = useCallback(() => {
-    // alert("logoutUser");
-  }, []);
+  const logoutUser = useCallback(async () => {
+    try {
+      const responds = await postData("/logout", null);
+      setUserDetails(undefined);
+      setUserAuthDetails(undefined);
+      localStorage.removeItem("Atoken");
+      router.push(Routes.Home.path);
+      showToast(responds.data.message);
+    } catch {
+      // f
+    }
+  }, [router, setUserDetails, setUserAuthDetails, showToast]);
 
   const retryGetUserDetails = useCallback(
     async (retryCount = 0) => {
@@ -75,6 +89,7 @@ const useUser = () => {
     loadingUserDetails,
     setLoadingUserWallet,
     loadingUserWallet,
+    logoutUser,
     ...details,
   };
 };

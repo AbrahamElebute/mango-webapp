@@ -111,3 +111,5 @@ export interface ForgotPasswordProps {
   switchScreen: (screen: AuthScreenType) => void;
   handleClose: () => void;
 }
+
+export type ToastType = "success" | "error" | "info" | "warning";

@@ -7,7 +7,7 @@ import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import ContextWrapper from "@/context/ContextWrapper";
 import AppLayout from "@/components/Layout/AppLayout";
-import { ToastContainer } from "react-toastify";
+import CustomToast from "@/components/ui/customToast/CustomToast";
 
 type CustomAppProps = AppProps & {
   Component: AppProps["Component"] & {
@@ -48,7 +48,7 @@ export default function App({ Component, pageProps }: CustomAppProps) {
           <NavBar {...navBarStyles} />
           <Component {...pageProps} />
           <Footer />
-          <ToastContainer />
+          <CustomToast />
           <AuthModal
             isOpen={isOpen}
             onClose={closeModal}

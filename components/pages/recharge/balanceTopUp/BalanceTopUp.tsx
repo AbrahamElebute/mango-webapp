@@ -22,7 +22,7 @@ const BalanceTopUp: React.FC = () => {
 
   useEffect(() => {
     getUserWallet();
-  }, [getUserWallet]);
+  }, []);
 
   const isRechargeDisabled = useMemo(() => totalAmount === "", [totalAmount]);
 

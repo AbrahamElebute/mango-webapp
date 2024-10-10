@@ -28,7 +28,7 @@ export const setHeaderAuthorization: (token?: string) => void = (token) => {
   },
   postData: (
     url: string,
-    data: AllBodyType | undefined | FormData,
+    data: AllBodyType | undefined | null | FormData,
     option?: AxiosRequestConfig
   ) => ApiRequestResponseType = (url, data, option) => {
     return new Promise<ResponseType>((resolve, reject) => {
