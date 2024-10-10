@@ -16,21 +16,22 @@ const useUser = () => {
   } = useUserContext();
 
   // Separate state management for loading states
-  const [loadingUserDetails, setLoadingUserDetails] = useState(false);
   const [loadingUserWallet, setLoadingUserWallet] = useState(false);
+  const [loadingUserDetails, setLoadingUserDetails] = useState(false);
+
   const router = useRouter();
   const { showToast } = useToast();
 
   const logoutUser = useCallback(async () => {
     try {
-      const responds = await postData("/logout", null);
+      const response = await postData("/logout", null);
       setUserDetails(undefined);
       setUserAuthDetails(undefined);
       localStorage.removeItem("Atoken");
       router.push(Routes.Home.path);
-      showToast(responds.data.message);
-    } catch {
-      // f
+      showToast(response?.data?.message || "Logged out successfully!");
+    } catch (error: any) {
+      showToast(error?.response?.data?.message || "Error logging out!");
     }
   }, [router, setUserDetails, setUserAuthDetails, showToast]);
 
@@ -48,11 +49,13 @@ const useUser = () => {
         if (retryCount < 3) {
           await retryGetUserDetails(retryCount + 1);
         } else {
-          // console.error("Error fetching user details:", error);
+          showToast(
+            error?.response?.data?.message || "Error fetching user details"
+          );
         }
       }
     },
-    [logoutUser, setUserDetails]
+    [logoutUser, setUserDetails, showToast]
   );
 
   const getUserDetails = useCallback(async () => {

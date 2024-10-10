@@ -25,7 +25,7 @@ const AppLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
     if (savedAuthDetails) {
       setHeaderAuthorization(savedAuthDetails);
       setUserAuthDetails(savedAuthDetails);
-      getUserDetails();
+      await getUserDetails();
     }
     setAppLoading(false);
   }, [router, openModal, switchScreen, setUserAuthDetails, getUserDetails]);
