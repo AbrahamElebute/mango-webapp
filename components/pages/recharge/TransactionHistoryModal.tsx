@@ -1,7 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { getData } from "@/api";
-import { MenuCloseIcon } from "@/assets/icon";
+import { CoinIcon, XIcon } from "@/assets/icon";
+import PlaceholderState from "@/components/ui/PlaceholderState";
+import {
+  emptyLotties,
+  errorLotties,
+  LoadingLottie,
+} from "@/assets/images/lottiefiles";
+import useUser from "@/hooks/useUser";
 
 interface Transaction {
   id: string;
@@ -18,6 +25,7 @@ const TransactionHistoryModal: React.FC<{ onClose: () => void }> = ({
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { userWallet } = useUser();
 
   const getTransactionDetails = useCallback(async () => {
     try {
@@ -46,52 +54,68 @@ const TransactionHistoryModal: React.FC<{ onClose: () => void }> = ({
         );
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-      <div className="flex justify-between items-center mb-4">
+    <div className="bg-white rounded-lg shadow-lg p-6 w-[600px] min-h-[400px] space-y-4">
+      <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold">Transaction Record</h2>
         <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-          <MenuCloseIcon />
+          <XIcon height={12} />
         </button>
       </div>
 
-      <div className="flex space-x-4 mb-4">
+      <div className="flex justify-between border-y-2 py-4 ">
         <button
           className={`px-3 py-1 rounded ${
-            filter === "All" ? "bg-gray-200" : "bg-white"
-          }`}
+            filter === "All" ? "bg-gray-200" : "bg-white hover:bg-gray-50"
+          } `}
           onClick={() => setFilter("All")}
         >
           All
         </button>
         <button
           className={`px-3 py-1 rounded ${
-            filter === "Succeed" ? "bg-gray-200" : "bg-white"
-          }`}
+            filter === "Succeed" ? "bg-gray-200" : "bg-white hover:bg-gray-50 "
+          }  `}
           onClick={() => setFilter("Succeed")}
         >
-          Credit
+          Success
         </button>
         <button
           className={`px-3 py-1 rounded ${
-            filter === "Failed" ? "bg-gray-200" : "bg-white"
-          }`}
+            filter === "Failed" ? "bg-gray-200" : "bg-white hover:bg-gray-50"
+          }  `}
           onClick={() => setFilter("Failed")}
         >
-          Debit
+          Fail
         </button>
       </div>
 
       <div className="space-y-4">
         {isLoading && (
-          <div className="text-center text-gray-500">
-            Loading transactions...
+          <PlaceholderState
+            lottie={LoadingLottie}
+            widthLottie={320}
+            heightLottie={150}
+            title="Loading Transactions..."
+            description="Please wait while we retrieve your transaction history."
+          />
+        )}
+
+        {error && (
+          <div className="text-center text-red-500">
+            <PlaceholderState
+              lottie={errorLotties}
+              title={`${error}`}
+              description="We encountered an issue while retrieving your transaction history. Please try again later or contact support if the problem persists."
+            />
           </div>
         )}
 
-        {error && <div className="text-center text-red-500">{error}</div>}
-
         {!isLoading && !error && filteredTransactions.length === 0 && (
-          <div className="text-center text-gray-500">No transactions found</div>
+          <PlaceholderState
+            lottie={emptyLotties}
+            title="No transactions found"
+            description="It looks like you don't have any transaction records yet. Once you make a transaction, it will appear here."
+          />
         )}
 
         {!isLoading &&
@@ -99,40 +123,32 @@ const TransactionHistoryModal: React.FC<{ onClose: () => void }> = ({
           filteredTransactions.length > 0 &&
           filteredTransactions.map((transaction) => (
             <div key={transaction.id} className="border-b pb-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-600">
+              <div className="flex justify-between items-center mb-2 bg-[#F3F5F7] p-2 rounded-sm">
+                <span className="text-sm text-black font-semibold">
                   {new Date(transaction.created_at).toLocaleDateString()}
                 </span>
-                <span className="text-xs text-gray-400">
-                  ID: {transaction.id}
+                <span className="text-sm text-gray-400">
+                  Order number:{" "}
+                  <span className="uppercase">{transaction.id}</span>
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <span
-                    className={`mr-1 ${
-                      transaction.type === "credit"
-                        ? "text-green-500"
-                        : "text-red-500"
-                    }`}
-                  >
-                    ●
+                <div className="flex items-center gap-2">
+                  <CoinIcon />
+                  <span className="font-semibold">
+                    {transaction.amount.whole}
                   </span>
-                  <span className="font-semibold">{transaction.title}</span>
                 </div>
                 <span className="text-gray-600">
-                  {transaction.amount.display}
+                  Cost: $
+                  {(
+                    transaction?.amount?.whole * userWallet?.purchase_rate
+                  ).toFixed(2)}
                 </span>
               </div>
               <div className="flex justify-between items-center mt-2">
-                <div className="flex items-center">
-                  <Image
-                    src={`/api/placeholder/24/24`}
-                    alt={transaction.type}
-                    width={24}
-                    height={24}
-                    className="w-6 h-6 mr-2"
-                  />
+                <div className="flex items-center justify-between">
+                  <span>{transaction.title}</span>
                   <span>{transaction.type}</span>
                 </div>
                 <span

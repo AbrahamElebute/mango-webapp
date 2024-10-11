@@ -11,6 +11,7 @@ import MobileMenu from "./MobileMenu";
 import UserAvatar from "./UserAvatar";
 import { NavBarProps } from "@/utils/types";
 import { MenuCloseIcon, MenuIcon } from "@/assets/icon";
+import ProfiledropDown from "../../profile/ProfiledropDown";
 
 const NavBar: React.FC<NavBarProps> = ({
   logoColor,
@@ -19,11 +20,12 @@ const NavBar: React.FC<NavBarProps> = ({
 }) => {
   const { isOpen, currentScreen, openModal, closeModal, switchScreen } =
     useAuthModal();
-  const { userAuthDetails, loadingUserDetails, userDetails, logoutUser } =
-    useUser();
+  const { userAuthDetails, loadingUserDetails, userDetails } = useUser();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileDropDown, setProfileDropDown] = useState(false);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const toggleProfileDropDown = () => setProfileDropDown(!isProfileDropDown);
 
   return (
     <>
@@ -44,16 +46,20 @@ const NavBar: React.FC<NavBarProps> = ({
 
         <div className="flex justify-end items-center">
           {userAuthDetails ? (
-            <div
-              onClick={() => {
-                logoutUser();
-              }}
-            >
-              <UserAvatar
-                loading={loadingUserDetails}
-                avatar={userDetails?.avatar || ""}
-                className="md:block hidden"
-              />
+            <div className="relative">
+              <div onClick={toggleProfileDropDown}>
+                <UserAvatar
+                  loading={loadingUserDetails}
+                  avatar={userDetails?.avatar || ""}
+                  className="md:block hidden"
+                />
+              </div>
+
+              {isProfileDropDown && (
+                <ProfiledropDown
+                  toggleProfileDropDown={toggleProfileDropDown}
+                />
+              )}
             </div>
           ) : (
             <Button

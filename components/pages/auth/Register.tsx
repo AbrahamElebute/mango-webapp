@@ -88,7 +88,6 @@ const Register: React.FC<RegisterProps> = ({ switchScreen, handleClose }) => {
         type: "error",
       });
     } finally {
-      // Ensure loading is set to false
       setLoading(false);
     }
   };

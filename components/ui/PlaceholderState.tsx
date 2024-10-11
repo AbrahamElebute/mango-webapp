@@ -7,6 +7,8 @@ const PlaceholderState: React.FC<PlaceholderStateProps> = ({
   title,
   description,
   lottie,
+  widthLottie = 120,
+  heightLottie = 100,
   buttonText,
   onButtonClick,
 }) => {
@@ -14,14 +16,18 @@ const PlaceholderState: React.FC<PlaceholderStateProps> = ({
 
   return (
     <div className="flex flex-col gap-4 items-center justify-centers">
-      <Lottie
-        loop={true}
-        autoplay={true}
-        style={{ width: 120, height: 100 }}
-        animationData={lottie || emptyList}
-      />
+      <div className={`w-[${widthLottie}] h-[${heightLottie}]`}>
+        <Lottie
+          loop={true}
+          autoplay={true}
+          style={{ width: widthLottie || 120, height: heightLottie || 100 }}
+          animationData={lottie || emptyList}
+        />
+      </div>
       <div>
-        <h1 className="text-2xl font-semibold text-gray-800">{title}</h1>
+        <h1 className="text-2xl text-center font-semibold text-gray-800">
+          {title}
+        </h1>
 
         {description && (
           <p className="text-gray-600 text-center  max-w-lg">{description}</p>

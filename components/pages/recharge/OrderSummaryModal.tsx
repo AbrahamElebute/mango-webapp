@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { CoinIcon } from "@/assets/icon";
+import { CoinIcon, XIcon } from "@/assets/icon";
 import { useModal } from "@/context/ModalContext";
 import ProgressBage from "./profileOverview/ProgressBage";
 import PaypalModal from "./balanceTopUp/paymentModal/PaypalModal";
 import VenmoModal from "./balanceTopUp/paymentModal/VenmoModal";
 import StripeModal from "./balanceTopUp/paymentModal/StripeModal";
-import CloseIcon from "@/assets/icon/CloseIcon";
 import { PayPalSvg, StripeSvg, VenmoSvg } from "@/assets/images";
 import Image from "next/image";
 import Button from "@/components/ui/form/Button";
@@ -55,7 +54,7 @@ const OrderSummaryModal: React.FC<{
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
           >
-            <CloseIcon />
+            <XIcon height={12} />
           </button>
         </div>
 

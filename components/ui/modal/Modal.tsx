@@ -16,6 +16,7 @@ interface ModalProps {
   dialogLeaveFromAnimation?: string; // Custom leave from animation
   dialogLeaveToAnimation?: string; // Custom leave to animation
   className?: string; // Additional classes for the modal wrapper
+  bgClassname?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -31,6 +32,7 @@ const Modal: React.FC<ModalProps> = ({
   dialogLeaveFromAnimation = "opacity-100 scale-100",
   dialogLeaveToAnimation = "opacity-0 scale-95",
   className = "",
+  bgClassname = "",
 }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -57,7 +59,9 @@ const Modal: React.FC<ModalProps> = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-30" />
+          <div
+            className={`${bgClassname} fixed inset-0 bg-black bg-opacity-30  backdrop-blur-[10px]`}
+          />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -75,7 +79,7 @@ const Modal: React.FC<ModalProps> = ({
                 as="div"
                 className={`${contentClassName} fixed w-fit top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] overflow-auto overflow-x-hidden text-left transition-all`}
               >
-                <div className="w-fit max-h-[100vh] overflow-y-auto no-scrollbar">
+                <div className="w-fit max-h-[100vh] mt-12 overflow-y-auto no-scrollbar">
                   {children}
                 </div>
               </Dialog.Panel>

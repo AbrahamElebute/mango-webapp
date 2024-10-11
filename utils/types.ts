@@ -80,11 +80,13 @@ export interface RechargeOptionProps {
   price: number;
 }
 export interface PlaceholderStateProps {
-  title: string;
+  title?: string;
   description?: string;
   lottie?: object;
   buttonText?: string;
   onButtonClick?: any;
+  widthLottie?: number;
+  heightLottie?: number;
 }
 export interface MobileMenuProps {
   userAuthDetails: any;
@@ -113,3 +115,9 @@ export interface ForgotPasswordProps {
 }
 
 export type ToastType = "success" | "error" | "info" | "warning";
+
+export interface LoadingIndicatorProps {
+  type?: "spinner" | "skeleton";
+  size?: string;
+  className?: string;
+}
