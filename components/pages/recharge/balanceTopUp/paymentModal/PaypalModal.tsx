@@ -1,7 +1,7 @@
 import React from "react";
 
 const PaypalModal = () => {
-  return <div>Paypal</div>;
+  return <div>Paypal coming soon</div>;
 };
 
 export default PaypalModal;
