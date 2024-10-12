@@ -1,11 +1,12 @@
-import Modal from "@/components/ui/modal/Modal";
 import React from "react";
 import UserAvatar from "../navigation/nav/UserAvatar";
 import useUser from "@/hooks/useUser";
 import useToast from "@/hooks/useToast";
 import { AccountIcon, CopyIcon } from "@/assets/icon";
 
-const ProfiledropDown = ({ toggleProfileDropDown }) => {
+const ProfiledropDown: React.FC<{ toggleProfileDropDown: () => void }> = ({
+  toggleProfileDropDown,
+}) => {
   const { loadingUserDetails, userDetails, logoutUser } = useUser();
 
   const { showToast } = useToast();

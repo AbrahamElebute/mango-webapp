@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
 import { getData } from "@/api";
 import { CoinIcon, XIcon } from "@/assets/icon";
 import PlaceholderState from "@/components/ui/PlaceholderState";
@@ -14,7 +13,13 @@ interface Transaction {
   id: string;
   type: "credit" | "debit";
   title: string;
-  amount: { display: string };
+  amount: {
+    amount: string;
+    display: string;
+    whole: string;
+    symbol: string;
+    currency: string;
+  };
   created_at: string;
 }
 
@@ -142,7 +147,8 @@ const TransactionHistoryModal: React.FC<{ onClose: () => void }> = ({
                 <span className="text-gray-600">
                   Cost: $
                   {(
-                    transaction?.amount?.whole * userWallet?.purchase_rate
+                    Number(transaction?.amount?.whole) *
+                    Number(userWallet?.purchase_rate)
                   ).toFixed(2)}
                 </span>
               </div>
