@@ -8,6 +8,7 @@ import Image from "next/image";
 import Button from "@/components/ui/form/Button";
 import { postData } from "@/api";
 import useToast from "@/hooks/useToast";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 
 const OrderSummaryModal: React.FC<{
   totalAmount: number;
@@ -17,6 +18,7 @@ const OrderSummaryModal: React.FC<{
   const [selectedPayment, setSelectedPayment] = useState("stripe");
   const { openModal } = useModal();
   const { showToast } = useToast();
+  const [isloading, setIsLoading] = useState(false);
 
   const paymentMethods = [
     { id: "stripe", name: "Stripe", logo: StripeSvg },
@@ -38,6 +40,7 @@ const OrderSummaryModal: React.FC<{
       paymentModal = <ProgressBage />;
   }
   const payPaymentModal = async () => {
+    setIsLoading(true);
     const data = {
       amount: totalAmount,
     };
@@ -45,12 +48,17 @@ const OrderSummaryModal: React.FC<{
       const responseData = await postData("/wallet/fund/paypal", data);
       const goToLink = responseData.data.payment_url;
       showToast(
-        responseData.data.message || "Paypal checkout created successful."
+        responseData.data.message
+          ? `${responseData.data.message}. Please wait a moment...`
+          : "PayPal checkout created successfully. Please wait a moment..."
       );
       window.open(goToLink, "_self");
+      // onClose();
       return;
     } catch (error: any) {
       showToast(error?.message || "Failed. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
     onClose();
   };
@@ -123,7 +131,7 @@ const OrderSummaryModal: React.FC<{
         </div>
 
         <Button onClick={handleModal} variant="primary" className="w-full">
-          Pay Now
+          {isloading ? <LoadingIndicator /> : "Pay Now"}
         </Button>
       </div>
     </>
