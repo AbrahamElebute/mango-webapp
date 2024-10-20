@@ -42,7 +42,10 @@ const useUser = () => {
         setUserDetails(responseData);
       } catch (error: any) {
         if (error?.code === 403 || error?.code === 401) {
-          logoutUser();
+          setUserDetails(undefined);
+          setUserAuthDetails(undefined);
+          localStorage.removeItem("Atoken");
+          router.push(Routes.Home.path);
           return;
         }
 
@@ -55,7 +58,7 @@ const useUser = () => {
         }
       }
     },
-    [logoutUser, setUserDetails, showToast]
+    [setUserDetails, showToast]
   );
 
   const getUserDetails = useCallback(async () => {
@@ -73,14 +76,11 @@ const useUser = () => {
       const { data: balanceData } = await getData("/wallet");
       setUserWallet(balanceData);
     } catch (error: any) {
-      if (error?.code === 403 || error?.code === 401) {
-        logoutUser();
-        return;
-      }
+      // error
     } finally {
       setLoadingUserWallet(false);
     }
-  }, [logoutUser, setUserWallet]);
+  }, [setUserWallet]);
 
   return {
     setUserAuthDetails,

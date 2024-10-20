@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { CoinIcon, XIcon } from "@/assets/icon";
 import { useModal } from "@/context/ModalContext";
 import ProgressBage from "./profileOverview/ProgressBage";
-import PaypalModal from "./balanceTopUp/paymentModal/PaypalModal";
-import VenmoModal from "./balanceTopUp/paymentModal/VenmoModal";
 import StripeModal from "./balanceTopUp/paymentModal/StripeModal";
-import { PayPalSvg, StripeSvg, VenmoSvg } from "@/assets/images";
+import { PayPalSvg, StripeSvg } from "@/assets/images";
 import Image from "next/image";
 import Button from "@/components/ui/form/Button";
+import { postData } from "@/api";
+import useToast from "@/hooks/useToast";
 
 const OrderSummaryModal: React.FC<{
   totalAmount: number;
@@ -16,21 +16,18 @@ const OrderSummaryModal: React.FC<{
 }> = ({ totalAmount, coinAmount, onClose }) => {
   const [selectedPayment, setSelectedPayment] = useState("stripe");
   const { openModal } = useModal();
+  const { showToast } = useToast();
 
   const paymentMethods = [
     { id: "stripe", name: "Stripe", logo: StripeSvg },
     { id: "paypal", name: "Paypal", logo: PayPalSvg },
-    { id: "venmo", name: "Venmo", logo: VenmoSvg },
   ];
 
   let paymentModal;
 
   switch (selectedPayment) {
     case "paypal":
-      paymentModal = <PaypalModal />;
-      break;
-    case "venmo":
-      paymentModal = <VenmoModal />;
+      paymentModal = "paypal";
       break;
     case "stripe":
       paymentModal = (
@@ -40,8 +37,29 @@ const OrderSummaryModal: React.FC<{
     default:
       paymentModal = <ProgressBage />;
   }
+  const payPaymentModal = async () => {
+    const data = {
+      amount: totalAmount,
+    };
+    try {
+      const responseData = await postData("/wallet/fund/paypal", data);
+      const goToLink = responseData.data.payment_url;
+      showToast(
+        responseData.data.message || "Paypal checkout created successful."
+      );
+      window.open(goToLink, "_self");
+      return;
+    } catch (error: any) {
+      showToast(error?.message || "Failed. Please try again.");
+    }
+    onClose();
+  };
 
   const handleModal = () => {
+    if (paymentModal === "paypal") {
+      payPaymentModal();
+      return;
+    }
     openModal(paymentModal);
   };
 
