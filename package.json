@@ -13,6 +13,7 @@
     "axios": "^1.7.7",
     "lottie-react": "^2.4.0",
     "next": "14.2.12",
+    "nextjs-progressbar": "^0.0.16",
     "node-encryption": "^2.0.1",
     "react": "^18",
     "react-dom": "^18",

@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useToast from "@/hooks/useToast";
 
 const ProfileOverview = () => {
-  const { userDetails, loadingUserDetails } = useUser();
+  const { userDetails, loadingState } = useUser();
   const { showToast } = useToast();
 
   const copyToClipboard = (id: string) => {
@@ -26,7 +26,7 @@ const ProfileOverview = () => {
 
   return (
     <SectionContainer className="mt-10">
-      {loadingUserDetails ? (
+      {loadingState.userDetails ? (
         <div className="w-[90vw] max-w-[500px] relative h-40 flex flex-col justify-between border-4 border-gray-200 rounded-3xl p-3">
           <span className="flex w-full gap-4">
             <SkeletonLoader className="rounded-full size-14 shrink-0" />

@@ -16,14 +16,21 @@ const useUser = () => {
   } = useUserContext();
 
   // Separate state management for loading states
-  const [loadingUserWallet, setLoadingUserWallet] = useState(false);
-  const [loadingUserDetails, setLoadingUserDetails] = useState(false);
+  // const [loadingUserWallet, setLoadingUserWallet] = useState(false);
+  // const [loadingUserDetails, setLoadingUserDetails] = useState(false);
+
+  const [loadingState, setLoadingState] = useState({
+    userDetails: false,
+    userLogout: false,
+    userWallet: false,
+  });
 
   const router = useRouter();
   const { showToast } = useToast();
 
   const logoutUser = useCallback(async () => {
     try {
+      setLoadingState((prev) => ({ ...prev, userLogout: true }));
       const response = await postData("/logout", null);
       setUserDetails(undefined);
       setUserAuthDetails(undefined);
@@ -32,12 +39,15 @@ const useUser = () => {
       showToast(response?.data?.message || "Logged out successfully!");
     } catch (error: any) {
       showToast(error?.response?.data?.message || "Error logging out!");
+    } finally {
+      setLoadingState((prev) => ({ ...prev, userLogout: false }));
     }
   }, [router, setUserDetails, setUserAuthDetails, showToast]);
 
   const retryGetUserDetails = useCallback(
     async (retryCount = 0) => {
       try {
+        setLoadingState((prev) => ({ ...prev, userDetails: true }));
         const { data: responseData } = await getData("/account");
         setUserDetails(responseData);
       } catch (error: any) {
@@ -56,29 +66,26 @@ const useUser = () => {
             error?.response?.data?.message || "Error fetching user details"
           );
         }
+      } finally {
+        setLoadingState((prev) => ({ ...prev, userDetails: false }));
       }
     },
-    [setUserDetails, showToast]
+    [setUserDetails, showToast, router, setUserAuthDetails]
   );
 
   const getUserDetails = useCallback(async () => {
-    setLoadingUserDetails(true);
-    try {
-      await retryGetUserDetails();
-    } finally {
-      setLoadingUserDetails(false);
-    }
+    await retryGetUserDetails();
   }, [retryGetUserDetails]);
 
   const getUserWallet = useCallback(async () => {
-    setLoadingUserWallet(true);
+    setLoadingState((prev) => ({ ...prev, userWallet: true }));
     try {
       const { data: balanceData } = await getData("/wallet");
       setUserWallet(balanceData);
     } catch (error: any) {
       // error
     } finally {
-      setLoadingUserWallet(false);
+      setLoadingState((prev) => ({ ...prev, userWallet: false }));
     }
   }, [setUserWallet]);
 
@@ -89,9 +96,7 @@ const useUser = () => {
     getUserWallet,
     userDetails,
     userWallet,
-    loadingUserDetails,
-    setLoadingUserWallet,
-    loadingUserWallet,
+    loadingState,
     logoutUser,
     ...details,
   };

@@ -53,14 +53,13 @@ const OrderSummaryModal: React.FC<{
           : "PayPal checkout created successfully. Please wait a moment..."
       );
       window.open(goToLink, "_self");
-      // onClose();
+      onClose();
       return;
     } catch (error: any) {
-      showToast(error?.message || "Failed. Please try again.");
+      showToast(error?.response?.message || "Failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
-    onClose();
   };
 
   const handleModal = () => {

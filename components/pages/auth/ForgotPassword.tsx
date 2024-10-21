@@ -9,6 +9,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { postData } from "@/api";
 import StatusMessage from "@/components/ui/StatusMessage";
 import { useAuth } from "@/context/AuthContext";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 interface FormData {
   email: string;
 }
@@ -87,7 +88,11 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({
             disabled={loading}
             className="w-full !mt-10 text-lg py-2 font-medium bg-primary text-gray-800 hover:bg-primary/80 !rounded-full"
           >
-            {loading ? "Sending..." : "Submit"}
+            {loading ? (
+              <LoadingIndicator type="spinner" size="w-6 h-6" />
+            ) : (
+              "Submit"
+            )}
           </Button>
           {formStatus.message && (
             <StatusMessage

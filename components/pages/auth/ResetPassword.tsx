@@ -8,6 +8,7 @@ import { postData } from "@/api";
 import { useAuth } from "@/context/AuthContext";
 import StatusMessage from "@/components/ui/StatusMessage";
 import PasswordField from "@/components/general/form/PasswordField";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 
 interface FormData {
   newPassword: string;
@@ -103,7 +104,11 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
             disabled={loading}
             className="w-full text-lg py-2 font-medium bg-primary text-gray-800 hover:bg-primary/80 !rounded-full !mt-10"
           >
-            {loading ? "Resetting..." : "Reset Password"}
+            {loading ? (
+              <LoadingIndicator type="spinner" size="w-6 h-6" />
+            ) : (
+              "Reset Password"
+            )}
           </Button>
 
           {formStatus.message && (

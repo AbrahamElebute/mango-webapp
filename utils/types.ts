@@ -23,7 +23,7 @@ export type RouteType = {
   Icon: undefined | IconType;
   showIn: string[];
   label: string;
-  type: "link" | "hash";
+  type: "link" | "hash" | "button";
   activeIn: string[];
   subRoutes: undefined | object;
 };
@@ -93,6 +93,10 @@ export interface MobileMenuProps {
   loadingUserDetails: boolean;
   userDetails: any;
   toggleMobileMenu: () => void;
+  openModal: any;
+}
+export interface toggleMenuProps {
+  toggleMenu: () => void;
   openModal: any;
 }
 export interface StatusMessageProps {

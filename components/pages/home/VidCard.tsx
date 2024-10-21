@@ -82,7 +82,7 @@ const VidCard: React.FC<VidCardProps> = ({
 
   return (
     <div
-      className={`relative border-4 border-primary rounded-2xl w-full h-[400px] overflow-hidden group ${className}`}
+      className={`relative border-4 border-primary rounded-2xl h-[400px] overflow-hidden group ${className}`}
     >
       <div className="h-full">
         <video

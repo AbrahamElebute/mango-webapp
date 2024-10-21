@@ -32,35 +32,39 @@ const Hero = () => {
   ];
 
   return (
-    <SectionContainer
-      contentContainerClassName="bg-[#000000]"
-      className="min-h-screen flex items-center text-[#ffffff]  justify-center"
-    >
-      <div className="flex flex-col w-full items-center gap-12 mt-20">
-        <h1
-          className="text-center font-black capitalize"
-          style={{ fontSize: "clamp(2.5rem, 5vw, 6rem)" }}
-        >
-          Lets reach the <br />
-          Unreachables
-        </h1>
-        <Button variant="primary" isSpecial>
-          Watch Live
-        </Button>
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {videos.map((video, index) => (
-            <VidCard
-              key={index}
-              videoSrc={video.src}
-              title={video.title}
-              description={video.description}
-              className={index % 2 !== 0 ? "md:!mt-10 mt-0" : "mt-0"}
-              posterSrc={video.posterSrc}
-            />
-          ))}
+    <>
+      <SectionContainer
+        contentContainerClassName="bg-[#000000]"
+        className="min-h-[30vh] flex items-center text-[#ffffff]  justify-center"
+      >
+        <div className="flex flex-col w-full items-center gap-12 ">
+          <h1
+            className="text-center font-black capitalize"
+            style={{ fontSize: "clamp(2.5rem, 5vw, 6rem)" }}
+          >
+            Lets reach the <br />
+            Unreachables
+          </h1>
+          <Button variant="primary" isSpecial>
+            Watch Live
+          </Button>
         </div>
+      </SectionContainer>
+      <div className="flex flex-col md:flex-row  w-[calc(150vw + 100px)] gap-8 items-center justify-center bg-[#000000] overflow-hidden ">
+        {videos.map((video, index) => (
+          <VidCard
+            key={index}
+            videoSrc={video.src}
+            title={video.title}
+            description={video.description}
+            className={`${index === 0 ? "md:!mt-32 mt-0" : "mt-0"} ${
+              index === 1 ? "md:!mt-10 mt-0" : "mt-0"
+            } ${index === 2 ? "md:!mt-40 mt-0" : "mt-0"} shrink-0 !w-[300px]`}
+            posterSrc={video.posterSrc}
+          />
+        ))}
       </div>
-    </SectionContainer>
+    </>
   );
 };
 

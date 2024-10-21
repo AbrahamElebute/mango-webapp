@@ -20,7 +20,7 @@ const NavBar: React.FC<NavBarProps> = ({
 }) => {
   const { isOpen, currentScreen, openModal, closeModal, switchScreen } =
     useAuthModal();
-  const { userAuthDetails, loadingUserDetails, userDetails } = useUser();
+  const { userAuthDetails, loadingState, userDetails } = useUser();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropDown, setProfileDropDown] = useState(false);
 
@@ -49,7 +49,7 @@ const NavBar: React.FC<NavBarProps> = ({
             <div className="relative">
               <div onClick={toggleProfileDropDown}>
                 <UserAvatar
-                  loading={loadingUserDetails}
+                  loading={loadingState.userDetails}
                   avatar={userDetails?.avatar || ""}
                   className="md:block hidden"
                 />
@@ -83,7 +83,7 @@ const NavBar: React.FC<NavBarProps> = ({
       {isMobileMenuOpen && (
         <MobileMenu
           userAuthDetails={userAuthDetails}
-          loadingUserDetails={loadingUserDetails}
+          loadingUserDetails={loadingState.userDetails}
           userDetails={userDetails}
           toggleMobileMenu={toggleMobileMenu}
           openModal={openModal}

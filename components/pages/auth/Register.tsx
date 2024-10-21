@@ -11,8 +11,9 @@ import { postData, setHeaderAuthorization } from "@/api";
 import { saveToken } from "@/localservices";
 import useUser from "@/hooks/useUser";
 import PasswordField from "@/components/general/form/PasswordField";
-import SocialButton from "./authComponents/SocialButton";
+import AuthSocialButtons from "./authComponents/AuthSocialButtons";
 import StatusMessage from "@/components/ui/StatusMessage";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 
 interface FormData {
   firstName: string;
@@ -154,7 +155,11 @@ const Register: React.FC<RegisterProps> = ({ switchScreen, handleClose }) => {
             className="w-full text-lg"
             disabled={loading}
           >
-            {loading ? "Creating account..." : "Create an account"}
+            {loading ? (
+              <LoadingIndicator type="spinner" size="w-6 h-6" />
+            ) : (
+              "Create an account"
+            )}
           </Button>
           {formStatus.message && (
             <StatusMessage
@@ -167,7 +172,7 @@ const Register: React.FC<RegisterProps> = ({ switchScreen, handleClose }) => {
 
         <div className="text-center space-y-4">
           <p className="text-sm text-gray-500">- OR Continue with -</p>
-          <SocialButton />
+          <AuthSocialButtons />
         </div>
 
         <p className="text-center text-sm">

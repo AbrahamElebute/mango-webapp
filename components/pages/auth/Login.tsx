@@ -9,9 +9,10 @@ import { postData, setHeaderAuthorization } from "@/api";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { saveToken } from "@/localservices";
 import useUser from "@/hooks/useUser";
-import SocialButton from "./authComponents/SocialButton";
+import AuthSocialButtons from "./authComponents/AuthSocialButtons";
 import StatusMessage from "@/components/ui/StatusMessage";
 import PasswordField from "@/components/general/form/PasswordField";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 
 interface FormData {
   email: string;
@@ -92,7 +93,11 @@ const Login: React.FC<LoginProps> = ({ switchScreen, handleClose }) => {
             disabled={loading}
             className="w-full !mt-10 text-lg py-2 font-medium bg-primary text-gray-800 hover:bg-primary/80 !rounded-full"
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? (
+              <LoadingIndicator type="spinner" size="w-6 h-6" />
+            ) : (
+              "Login"
+            )}
           </Button>
           {formStatus.message && (
             <StatusMessage
@@ -105,7 +110,7 @@ const Login: React.FC<LoginProps> = ({ switchScreen, handleClose }) => {
 
         <div className="text-center space-y-4">
           <p className="text-sm text-gray-500">- OR Continue with -</p>
-          <SocialButton />
+          <AuthSocialButtons />
         </div>
 
         <p className="text-center text-sm">

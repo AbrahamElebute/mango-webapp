@@ -8,6 +8,7 @@ import { EmailIcon } from "@/assets/icon";
 import { postData } from "@/api";
 import { useAuth } from "@/context/AuthContext";
 import StatusMessage from "@/components/ui/StatusMessage";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 
 interface OtpProps {
   switchScreen: (screen: AuthScreenType) => void;
@@ -92,7 +93,11 @@ const Otp: React.FC<OtpProps> = ({ switchScreen, handleClose }) => {
             disabled={loading}
             className="w-full text-lg py-2 font-medium bg-primary text-gray-800 hover:bg-primary/80 !rounded-full !mt-10"
           >
-            {loading ? "Verifying..." : "Submit"}
+            {loading ? (
+              <LoadingIndicator type="spinner" size="w-6 h-6" />
+            ) : (
+              "Submit"
+            )}
           </Button>
 
           {formStatus.message && (

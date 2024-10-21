@@ -161,7 +161,7 @@ const StripeModal: React.FC<StripeModalProps> = ({ rechargeAmonut }) => {
             className="h-12 w-12 text-2xl flex items-center justify-center cursor-pointer shrink-0 rounded-full hover:bg-slate-100 bg-slate-50"
           >
             {loadingAddCard ? (
-              <LoadingIndicator type="spinner" size="w-6 h-6" /> // Use LoadingIndicator
+              <LoadingIndicator type="spinner" size="w-6 h-6" />
             ) : (
               "+"
             )}
@@ -171,7 +171,7 @@ const StripeModal: React.FC<StripeModalProps> = ({ rechargeAmonut }) => {
 
       {/* Cards Section */}
       {loadingCards && (
-        <LoadingIndicator type="skeleton" className="h-56 mb-8" /> // Use LoadingIndicator
+        <LoadingIndicator type="skeleton" className="h-56 mb-8" />
       )}
 
       {!loadingCards && cardList.length === 0 && (

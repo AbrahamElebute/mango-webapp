@@ -16,7 +16,7 @@ const BalanceTopUp: React.FC = () => {
   const [totalAmount, setTotalAmount] = useState("");
   const [selectedCoins, setSelectedCoins] = useState(0);
   const { userWallet } = useUserContext();
-  const { getUserWallet, loadingUserWallet } = useUser();
+  const { getUserWallet, loadingState } = useUser();
 
   const { openModal, closeModal } = useModal();
 
@@ -33,18 +33,16 @@ const BalanceTopUp: React.FC = () => {
   }, []);
   const purchaseRate = userWallet?.purchase_rate || 0;
 
-  const handleCustomAmountSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (customAmount) {
-        const calculatedPrice = (
-          parseInt(customAmount, 10) * purchaseRate
-        ).toFixed(2);
+  const handleCustomAmountChange = useCallback(
+    (value: string) => {
+      setCustomAmount(value);
+      if (value) {
+        const calculatedPrice = (parseInt(value, 10) * purchaseRate).toString();
         setTotalAmount(calculatedPrice);
-        setSelectedCoins(parseInt(customAmount, 10));
+        setSelectedCoins(parseInt(value, 10));
       }
     },
-    [customAmount, purchaseRate]
+    [purchaseRate]
   );
 
   const rechargeOptions: RechargeOptionProps[] = [
@@ -73,7 +71,7 @@ const BalanceTopUp: React.FC = () => {
 
   return (
     <>
-      {loadingUserWallet ? (
+      {loadingState.userWallet ? (
         <SkeletonLoader className="w-full  max-w-4xl h-[400px] rounded-xl m-10" />
       ) : (
         <div className="w-full max-w-4xl mx-auto p-6">
@@ -113,9 +111,8 @@ const BalanceTopUp: React.FC = () => {
                   customAmount={customAmount}
                   purchaseRate={(
                     parseInt(customAmount || "0", 10) * purchaseRate
-                  ).toFixed(2)}
-                  onChange={setCustomAmount}
-                  onSubmit={handleCustomAmountSubmit}
+                  ).toString()}
+                  onChange={handleCustomAmountChange}
                 />
               </div>
             </div>

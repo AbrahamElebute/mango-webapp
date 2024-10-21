@@ -149,7 +149,7 @@ const TransactionHistoryModal: React.FC<{ onClose: () => void }> = ({
                   {(
                     Number(transaction?.amount?.whole) *
                     Number(userWallet?.purchase_rate)
-                  ).toFixed(2)}
+                  ).toString()}
                 </span>
               </div>
               <div className="flex justify-between items-center mt-2">

@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import ContextWrapper from "@/context/ContextWrapper";
 import AppLayout from "@/components/Layout/AppLayout";
 import CustomToast from "@/components/ui/customToast/CustomToast";
+import NextNProgress from "nextjs-progressbar";
 
 type CustomAppProps = AppProps & {
   Component: AppProps["Component"] & {
@@ -27,14 +28,14 @@ export default function App({ Component, pageProps }: CustomAppProps) {
         logoColor: "var(--primary)",
         headerStyle:
           "border-0 !bg-[#000000] text-white !bg-opacity-100 !backdrop-blur-0",
-        headerBtnStyle: "bg-white text-black"
+        headerBtnStyle: "bg-white text-black",
       };
     }
 
     return {
       logoColor: "var(--secondary)",
       headerStyle: "border-b-2 border-[#DFDFE1]",
-      headerBtnStyle: ""
+      headerBtnStyle: "",
     };
   };
 
@@ -42,6 +43,14 @@ export default function App({ Component, pageProps }: CustomAppProps) {
 
   return (
     <>
+      <NextNProgress
+        color="var(--primary)"
+        startPosition={0.3}
+        stopDelayMs={200}
+        height={3}
+        showOnShallow={true}
+      />
+
       <ContextWrapper>
         <AppLayout>
           {Component.showBanner && <AppPromotionBanner />}
